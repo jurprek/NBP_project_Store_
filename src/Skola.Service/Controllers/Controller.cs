@@ -340,7 +340,7 @@ namespace Skola
         }
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         [HttpPost("WriteOcjena")]
-        public IActionResult WriteOcjenai([FromBody] NovaOcjena Ocjena)
+        public IActionResult WriteOcjena([FromBody] NovaOcjena Ocjena)
         {
             _executionContext.Repository.Skola.Ocjena.Insert(new Skola.Ocjena
             {
