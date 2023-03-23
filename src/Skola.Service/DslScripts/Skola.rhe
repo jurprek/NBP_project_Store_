@@ -1,0 +1,27 @@
+Module Skola//ne smije se zvati kao Baza !!!
+{
+    Entity Ucenik
+    {
+        ShortString Ime;
+        ShortString Prezime;
+    }
+
+    Entity Profesor
+    {
+        ShortString Ime;
+        ShortString Prezime;
+    }
+
+    Entity Predmet
+    {
+        ShortString Naziv;
+        Reference Profesor;
+    }
+
+    Entity Ocjena
+    {
+        Reference Ucenik;
+        Reference Predmet;
+        Integer ocjena;
+    }
+}
