@@ -24,4 +24,50 @@ Module Skola//ne smije se zvati kao Baza !!!
         Reference Predmet;
         Integer ocjena;
     }  
+
+    	SqlProcedure Predmeti
+    '@ime VARCHAR(50), @prezime VARCHAR(50)'
+    '
+    BEGIN
+        DECLARE @jeUcenik BIT
+        DECLARE @jeProfesor BIT
+
+        SELECT @jeUcenik = CASE WHEN EXISTS (SELECT * FROM Skola.Ucenik WHERE Ime = @ime AND Prezime = @prezime) THEN 1 ELSE 0 END
+        SELECT @jeProfesor = CASE WHEN EXISTS (SELECT * FROM Skola.Profesor WHERE Ime = @ime AND Prezime = @prezime) THEN 1 ELSE 0 END
+
+        IF (@jeUcenik = 1)
+            BEGIN
+                SELECT P.Naziv as PohadjaPredmet, OU.Ocjena 
+                FROM Ocjena OU 
+                JOIN Predmet P ON OU.PredmetID = P.ID 
+                WHERE OU.UcenikID = (SELECT ID FROM Skola.Ucenik WHERE Ime = @ime AND Prezime = @prezime)
+            END
+        ELSE IF (@jeProfesor = 1)
+            BEGIN
+                SELECT P.Naziv as PredajePredmet
+                FROM Predmet P 
+                JOIN Profesor Prof ON Prof.ID = P.ProfesorID
+                WHERE Prof.Ime = @ime AND Prof.Prezime = @prezime
+            END
+    END
+    ';
+    
+    SqlView Ocjene
+    '
+    SELECT
+	    U.Ime AS ImeUcenika,
+	    U.Prezime AS PrezimeUcenika,
+	 
+	    PR.Ime AS ImeProfesora,
+	    PR.Prezime AS PrezimeProfesora,
+	
+	    p.Naziv AS NazivPredmeta,
+	    OU.Ocjena AS ZakljucnaOcjena
+    FROM Ucenik U
+
+    INNER JOIN Ocjena OU ON U.ID = OU.UcenikID
+    INNER JOIN Predmet P ON OU.PredmetID = P.ID
+    INNER JOIN Profesor PR ON P.ProfesorID = PR.ID;
+    ';
+
 }

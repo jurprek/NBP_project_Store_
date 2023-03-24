@@ -55,24 +55,30 @@ namespace Skola
             return Ok(_executionContext.Repository.Skola.Ucenik.Query().ToList());
         }
 
-        [HttpGet("ReadUcenik/{id}")]
-        public IActionResult ReadUcenik([FromRoute] Guid id, [FromQuery] Ucenik ucenik)
+        [HttpGet("ReadUcenik/Predmet")]
+        public IActionResult ReadUcenik([FromQuery] Guid id, [FromQuery] string ime, [FromQuery] string prezime)
         {
             Skola_Ucenik result = null;
 
-            if (string.IsNullOrEmpty(ucenik.Ime))
+            if (string.IsNullOrEmpty(prezime) && string.IsNullOrEmpty(prezime))
             {
                 result = _executionContext.Repository.Skola.Ucenik.Query()
                               .Where(i => i.ID == id)
                               .FirstOrDefault();
             }
             else
-            {
-                result = _executionContext.Repository.Skola.Ucenik.Query()
-                              .Where(i => i.ID == id && i.Ime == ucenik.Ime && i.Prezime == ucenik.Prezime)
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
+             {
+               result = _executionContext.Repository.Skola.Ucenik.Query()
+                              .Where(i => i.ID == id || (i.Ime == ime && i.Prezime ==prezime))
                               .FirstOrDefault();
-            }
+                string sql = "EXEC Skola.Predmeti ime, prezime";
+                var sqlParams = new object[] { ime, prezime };
+                var predmeti = _executionContext.EntityFrameworkContext.Database.ExecuteSqlCommand(sql, sqlParams).ToString();
 
+                //Console.WriteLine(predmeti);
+            }
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
             if (result == null)
             {
                 return NotFound("Uèenik nije pronaðen");
