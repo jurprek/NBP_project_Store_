@@ -23,5 +23,5 @@ Module Skola//ne smije se zvati kao Baza !!!
         Reference Ucenik;
         Reference Predmet;
         Integer ocjena;
-    }
+    }  
 }
