@@ -2,30 +2,46 @@ Module Skola//ne smije se zvati kao Baza !!!
 {
     Entity Ucenik
     {
-        ShortString Ime;
-        ShortString Prezime;
+        ShortString Ime { Required; }
+        ShortString Prezime { Required; }
     }
 
     Entity Profesor
     {
-        ShortString Ime;
-        ShortString Prezime;
+        ShortString Ime { Required; }
+        ShortString Prezime { Required; }
     }
 
     Entity Predmet
     {
-        ShortString Naziv;
-        Reference Profesor;
+        ShortString Naziv { Required; }
+        Reference Profesor { Required; }
+
+        ItemFilter DuljinaNazivaPredmeta 'item => item.Naziv.Length > 100';         //shortstring je 256
+        InvalidData DuljinaNazivaPredmeta 'Naziv Predmeta je predugaèak';
     }
 
     Entity Ocjena
     {
-        Reference Ucenik;
-        Reference Predmet;
+        Reference Ucenik { Required; }
+        Reference Predmet { Required; }
         Integer ocjena;
+
+        ItemFilter MaxOcjena 'item => item.ocjena.Value > 5';
+        InvalidData MaxOcjena 'Ocjena može biti maksimalno 5';
+
+        ItemFilter MinOcjena 'item => item.ocjena.Value < 1';
+        InvalidData MinOcjena 'Ocjena može biti minmalno 1';
     }  
 
-    	SqlProcedure Predmeti
+    Entity Ispit POLYMORPHIC!!
+    {
+        ShortString Code { AutoCode; }
+        datetime DatumIspita;
+        
+    }
+
+    SqlProcedure Predmeti
     '@ime VARCHAR(50), @prezime VARCHAR(50)'
     '
     BEGIN
@@ -38,14 +54,14 @@ Module Skola//ne smije se zvati kao Baza !!!
         IF (@jeUcenik = 1)
             BEGIN
                 SELECT P.Naziv as PohadjaPredmet, OU.Ocjena 
-                FROM Ocjena OU 
+                FROM Skola.Ocjena OU 
                 JOIN Predmet P ON OU.PredmetID = P.ID 
                 WHERE OU.UcenikID = (SELECT ID FROM Skola.Ucenik WHERE Ime = @ime AND Prezime = @prezime)
             END
         ELSE IF (@jeProfesor = 1)
             BEGIN
                 SELECT P.Naziv as PredajePredmet
-                FROM Predmet P 
+                FROM Skola.Predmet P 
                 JOIN Profesor Prof ON Prof.ID = P.ProfesorID
                 WHERE Prof.Ime = @ime AND Prof.Prezime = @prezime
             END
@@ -63,11 +79,12 @@ Module Skola//ne smije se zvati kao Baza !!!
 	
 	    p.Naziv AS NazivPredmeta,
 	    OU.Ocjena AS ZakljucnaOcjena
-    FROM Ucenik U
-
+    FROM Skola.Ucenik U
     INNER JOIN Ocjena OU ON U.ID = OU.UcenikID
     INNER JOIN Predmet P ON OU.PredmetID = P.ID
     INNER JOIN Profesor PR ON P.ProfesorID = PR.ID;
     ';
+
+
 
 }

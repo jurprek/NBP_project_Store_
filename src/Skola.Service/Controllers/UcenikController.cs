@@ -18,7 +18,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.CommandLine;
-
+using System.Data.SqlClient;
+using System.Text.Json;
+using System.Data;
 
 namespace Skola
 {
@@ -60,25 +62,64 @@ namespace Skola
         {
             Skola_Ucenik result = null;
 
-            if (string.IsNullOrEmpty(prezime) && string.IsNullOrEmpty(prezime))
+            /*if (string.IsNullOrEmpty(prezime) && string.IsNullOrEmpty(prezime))
             {
                 result = _executionContext.Repository.Skola.Ucenik.Query()
-                              .Where(i => i.ID == id)
+                              .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
                               .FirstOrDefault();
             }
-            else
+            else*/
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
-             {
-               result = _executionContext.Repository.Skola.Ucenik.Query()
+            {
+                
+                result = _executionContext.Repository.Skola.Ucenik.Query()
                               .Where(i => i.ID == id || (i.Ime == ime && i.Prezime ==prezime))
                               .FirstOrDefault();
-                string sql = "EXEC Skola.Predmeti ime, prezime";
+             /*   string sql = "EXEC Skola.Predmeti ime, prezime";
                 var sqlParams = new object[] { ime, prezime };
                 var predmeti = _executionContext.EntityFrameworkContext.Database.ExecuteSqlCommand(sql, sqlParams).ToString();
+             */   
 
-                //Console.WriteLine(predmeti);
+                Dictionary<string, int> predmeti = new Dictionary<string, int>();
+                var ucenik = _executionContext.Repository.Skola.Ucenik.Query()
+                    .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
+                    .FirstOrDefault();
+
+                if (ucenik != null)
+                {
+                    using (var cmd = _executionContext.EntityFrameworkContext.Database.Connection.CreateCommand())
+                    {
+                        _executionContext.EntityFrameworkContext.Database.Connection.Close();
+
+                        cmd.CommandText = "Skola.Predmeti";
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        var imeParam = new SqlParameter("@ime", SqlDbType.NVarChar, 50);
+                        imeParam.Value = ucenik.Ime;
+                        cmd.Parameters.Add(imeParam);
+
+                        var prezimeParam = new SqlParameter("@prezime", SqlDbType.NVarChar, 50);
+                        prezimeParam.Value = ucenik.Prezime;
+                        cmd.Parameters.Add(prezimeParam);
+
+                        _executionContext.EntityFrameworkContext.Database.Connection.Open();
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string nazivPredmeta = reader.GetString(0);
+                                int ocjena = reader.GetInt32(1);
+                                predmeti.Add(nazivPredmeta, ocjena);
+                            }
+                            
+                        }
+                    }
+                    return Ok(new { result, predmeti });
+                }
+
             }
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------
+            //-------------------------------------------------------------------------------------------------------------------------------------------------------------
             if (result == null)
             {
                 return NotFound("Uèenik nije pronaðen");

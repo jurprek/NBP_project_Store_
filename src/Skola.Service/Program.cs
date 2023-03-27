@@ -1,5 +1,5 @@
 using Rhetos;
-using Skola.Service.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +12,6 @@ builder.Services.AddRhetosHost((serviceProvider, rhetosHostBuilder) => rhetosHos
     .AddAspNetCoreIdentityUser()
     .AddHostLogging();
 
-builder.Services.AddScoped<IMobilePhoneService, XioamiMobilePhoneService>();
 
 // Add services to the container.
 

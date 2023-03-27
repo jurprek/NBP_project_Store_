@@ -13,9 +13,10 @@ using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using Common.Queryable;
 using System.Data.Entity.ModelConfiguration.Configuration;
+using System.Data.SqlClient;
+using System.Text.Json;
+using System.Data;
 
-
-using Skola;
 
 [ApiController]
     [Route("api/[controller]")]
@@ -40,25 +41,69 @@ using Skola;
             return Ok(_executionContext.Repository.Skola.Profesor.Query().ToList());
         }
 
-        [HttpGet("ReadProfesor/{id}")]
-        public IActionResult ReadProfesor([FromRoute] Guid id, [FromQuery] Profesor profesor)
+        [HttpGet("ReadProfesor/Predmeti")]
+        public IActionResult ReadProfesor([FromQuery] Guid id, [FromQuery] string ime, [FromQuery] string prezime)
         {
             Skola_Profesor result = null;
 
-            if (string.IsNullOrEmpty(profesor.Ime))
+        /* if (string.IsNullOrEmpty(profesor.Ime))
+         {
+             result = _executionContext.Repository.Skola.Profesor.Query()
+                           .Where(i => i.ID == id)
+                           .FirstOrDefault();
+         }
+         else*/
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+        {
+
+            //result = _executionContext.Repository.Skola.Profesor.Query()
+            //              .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
+            //              .FirstOrDefault();
+            /*   string sql = "EXEC Skola.Predmeti ime, prezime";
+               var sqlParams = new object[] { ime, prezime };
+               var predmeti = _executionContext.EntityFrameworkContext.Database.ExecuteSqlCommand(sql, sqlParams).ToString();
+            */
+
+            List<string> predmeti = new List<string>();
+
+            var profesor = _executionContext.Repository.Skola.Profesor.Query()
+                .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
+                .FirstOrDefault();
+
+            if (profesor != null)
             {
-                result = _executionContext.Repository.Skola.Profesor.Query()
-                              .Where(i => i.ID == id)
-                              .FirstOrDefault();
-            }
-            else
-            {
-                result = _executionContext.Repository.Skola.Profesor.Query()
-                              .Where(i => i.ID == id && i.Ime == profesor.Ime && i.Prezime == profesor.Prezime)
-                              .FirstOrDefault();
+                using (var cmd = _executionContext.EntityFrameworkContext.Database.Connection.CreateCommand())
+                {
+                    _executionContext.EntityFrameworkContext.Database.Connection.Close();
+                    cmd.CommandText = "Skola.Predmeti";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    var imeParam = new SqlParameter("@ime", SqlDbType.NVarChar, 50);
+                    imeParam.Value = profesor.Ime;
+                    cmd.Parameters.Add(imeParam);
+
+                    var prezimeParam = new SqlParameter("@prezime", SqlDbType.NVarChar, 50);
+                    prezimeParam.Value = profesor.Prezime;
+                    cmd.Parameters.Add(prezimeParam);
+
+                    _executionContext.EntityFrameworkContext.Database.Connection.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string nazivPredmeta = reader.GetString(0);
+                            predmeti.Add(nazivPredmeta);
+                        }
+
+                    }
+                }
+                return Ok(new { profesor, predmeti });
             }
 
-            if (result == null)
+        }
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+        if (result == null)
             {
                 return NotFound("Profesor nije pronaðen");
             }
