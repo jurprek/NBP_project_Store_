@@ -4,6 +4,7 @@ Module Skola
     {
         ShortString Ime { Required; }
         ShortString Prezime { Required; }
+        UniqueMultiple 'Ime Prezime';
     }
 
     Entity Profesor
@@ -33,7 +34,42 @@ Module Skola
         ItemFilter MinOcjena 'item => item.ocjena.Value < 1';
         InvalidData MinOcjena 'Ocjena može biti minmalno 1';
 
-    }  
+    } 
+
+    Computed IzracunajProsjek 
+    'repository =>
+    {
+        var ucenici = repository.Skola.Ucenik.Query()
+        .Select(u =>
+            new
+            {
+                u.ID,
+                u.Ime,
+                u.Prezime
+                })
+        .ToList();
+
+        var prosjeci = new List<IzracunajProsjek>();
+        foreach (var ucenik in ucenici)
+        {
+            decimal prosjek = 0;
+            int brojnost = 0;
+
+            prosjek = 3;    //izracunaj pravi prosjek
+                        
+            prosjeci.Add(new IzracunajProsjek { ID = ucenik.ID, Prosjek = prosjek });
+        }
+
+        return prosjeci.ToArray();
+        }
+    '
+
+    {
+    Extends Skola.Ucenik;
+    Decimal Prosjek;
+    }
+
+
 
     Action CreateUcenik '(parameter, repository, userInfo) =>
     {
