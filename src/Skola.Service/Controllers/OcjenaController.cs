@@ -1,25 +1,11 @@
-using Common;
 using Microsoft.AspNetCore.Mvc;
 using Rhetos;
 using Rhetos.Dom.DefaultConcepts;
-using Rhetos.Processing;
-using Rhetos.Processing.DefaultCommands;
-using Rhetos.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
 using Common.Queryable;
-using System.Data.Entity.ModelConfiguration.Configuration;
-
-using Skola;
 
     [ApiController]
     [Route("api/[controller]")]
 
-    //OCJENA---------------------------------------------------------------------------------------------
     public class OcjenaController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -32,31 +18,31 @@ using Skola;
             _executionContext = executionContext.Value;
         }
 
-        [HttpGet("ReadOcjena")]
-        public IActionResult ReadOcjena()
+        [HttpGet("Ocjena")]
+        public IActionResult Ocjena()
         {
             return Ok(_executionContext.Repository.Skola.Ocjena.Query().ToList());
         }
-        //------------------------------------------------------------------------------------------------------------------------------------- pretraga po id predmeta + po id ucenika------
-        [HttpGet("ReadOcjena/Filter")]
-        public IActionResult ReadOcjena([FromQuery] Guid predmet, [FromQuery] Guid ucenik)
+
+        [HttpGet("Ocjena/Filter")]
+        public IActionResult ReadOcjena([FromQuery] Guid predmetID, [FromQuery] Guid ucenik)
         {
             Skola_Ocjena result = null;
 
 
             result = _executionContext.Repository.Skola.Ocjena.Query()
-                          .Where(i => i.UcenikID == ucenik && i.PredmetID == predmet)
+                          .Where(i => i.UcenikID == ucenik && i.PredmetID == predmetID)
                           .FirstOrDefault();
 
             if (result == null)
             {
-                return NotFound("Ocjena nije pronaðena");
+                return NotFound("Ocjena ne postoji u bazi.");
             }
 
             return Ok(result);
         }
-        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        [HttpPost("WriteOcjena")]
+        
+        [HttpPost("Ocjena")]
         public IActionResult WriteOcjena([FromQuery] Guid ucenikID, [FromQuery] Guid predmetID, [FromQuery] int ocjena)
         {
             _executionContext.Repository.Skola.Ocjena.Insert(new Skola.Ocjena
@@ -72,18 +58,18 @@ using Skola;
         }
 
 
-        [HttpDelete("DeleteOcjena")]
-        public IActionResult DeleteOcjena([FromQuery] Guid UcenikID, [FromQuery] Guid PredmetID)
+        [HttpDelete("Ocjena")]
+        public IActionResult DeleteOcjena([FromQuery] Guid ucenikID, [FromQuery] Guid predmetID)
         {
             Skola_Ocjena result = null;
 
             result = _executionContext.Repository.Skola.Ocjena.Query()
-                          .Where(i => i.UcenikID == UcenikID && i.PredmetID == PredmetID)
+                          .Where(i => i.UcenikID == ucenikID && i.PredmetID == predmetID)
                           .FirstOrDefault();
 
             if (result == null)
             {
-                return NotFound("Ocjena nije pronaðena.");
+                return NotFound("Ocjena ne postoji u bazi.");
             }
             else
                 _executionContext.Repository.Skola.Ocjena.Delete(result);
@@ -91,12 +77,6 @@ using Skola;
             _unitOfWork.CommitAndClose();
             return Ok(result);
         }
-
-
-
-    //Action iz .cs
-
-
     }
 
 

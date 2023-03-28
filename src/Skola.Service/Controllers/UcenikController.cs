@@ -1,25 +1,8 @@
-using Common;
 using Microsoft.AspNetCore.Mvc;
 using Rhetos;
 using Rhetos.Dom.DefaultConcepts;
-using Rhetos.Processing;
-using Rhetos.Processing.DefaultCommands;
-using Rhetos.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
 using Common.Queryable;
-using System.Data.Entity.ModelConfiguration.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.CommandLine;
 using System.Data.SqlClient;
-using System.Text.Json;
 using System.Data;
 
 namespace Skola
@@ -27,8 +10,6 @@ namespace Skola
     [ApiController]
     [Route("api/[controller]")]
 
-
-    //UCENIK---------------------------------------------------------------------------------------------
     public class UcenikController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -41,44 +22,21 @@ namespace Skola
             _executionContext = executionContext.Value;
         }
 
-        // Izvrsava upit na bazu
-        //ToList() / ToListAsync()
-        //Count
-        //ToDictionary
-        //Any()
-        //FirstOrDefault
-
-        //Na tipu IQueryable se stavljaju where uvjeti i order uvjet
-
-        [HttpGet("ReadUcenik")]
+        [HttpGet("Ucenik")]
         public IActionResult ReadUcenik()
         {
-            //Ok, NoContent, BadRequest, NotFound
             return Ok(_executionContext.Repository.Skola.Ucenik.Query().ToList());
         }
 
-        [HttpGet("ReadUcenik/Predmet")]
+        [HttpGet("Ucenik/Predmet")]
         public IActionResult ReadUcenik([FromQuery] Guid id, [FromQuery] string ime, [FromQuery] string prezime)
         {
             Skola_Ucenik result = null;
-
-            /*if (string.IsNullOrEmpty(prezime) && string.IsNullOrEmpty(prezime))
-            {
-                result = _executionContext.Repository.Skola.Ucenik.Query()
-                              .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
-                              .FirstOrDefault();
-            }
-            else*/
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------
             {
                 
                 result = _executionContext.Repository.Skola.Ucenik.Query()
                               .Where(i => i.ID == id || (i.Ime == ime && i.Prezime ==prezime))
                               .FirstOrDefault();
-             /*   string sql = "EXEC Skola.Predmeti ime, prezime";
-                var sqlParams = new object[] { ime, prezime };
-                var predmeti = _executionContext.EntityFrameworkContext.Database.ExecuteSqlCommand(sql, sqlParams).ToString();
-             */   
 
                 Dictionary<string, int> predmeti = new Dictionary<string, int>();
                 var ucenik = _executionContext.Repository.Skola.Ucenik.Query()
@@ -119,22 +77,20 @@ namespace Skola
                 }
 
             }
-            //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+            
             if (result == null)
             {
-                return NotFound("Uèenik nije pronaðen");
+                return NotFound("Ucenik nije u bazi");
             }
 
             return Ok(result);
         }
 
-
-        [HttpPost("WriteUcenik")]
+        [HttpPost("Ucenik")]
         public IActionResult WriteUcenik([FromQuery] string ime, [FromQuery] string prezime)
         {
             _executionContext.Repository.Skola.Ucenik.Insert(new Skola.Ucenik
             {
-                //ID = Guid.NewGuid()
                 Ime = ime,
                 Prezime =prezime,
             });
@@ -144,8 +100,7 @@ namespace Skola
             return NoContent();
         }
 
-
-        [HttpDelete("DeleteUcenik")]
+        [HttpDelete("Ucenik")]
         public IActionResult DeleteUcenik([FromQuery] Guid id)
         {
             Skola_Ucenik result = null;
@@ -156,7 +111,7 @@ namespace Skola
 
             if (result == null)
             {
-                return NotFound("Uèenik  ID = " + id + "  nije pronaðen.");
+                return NotFound("Ucenik ne postoji u bazi.");
             }
             else
                 _executionContext.Repository.Skola.Ucenik.Delete(result);

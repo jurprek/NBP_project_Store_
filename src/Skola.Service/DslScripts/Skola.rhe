@@ -1,4 +1,4 @@
-Module Skola//ne smije se zvati kao Baza !!!
+Module Skola
 {
     Entity Ucenik
     {
@@ -32,6 +32,7 @@ Module Skola//ne smije se zvati kao Baza !!!
 
         ItemFilter MinOcjena 'item => item.ocjena.Value < 1';
         InvalidData MinOcjena 'Ocjena može biti minmalno 1';
+
     }  
 
     Action CreateUcenik '(parameter, repository, userInfo) =>
@@ -62,19 +63,6 @@ Module Skola//ne smije se zvati kao Baza !!!
         LongString Komentar;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    //-------------------------------------------------------------------------------------------------------------------------------
     SqlProcedure Predmeti
     '@ime VARCHAR(50), @prezime VARCHAR(50)'
     '

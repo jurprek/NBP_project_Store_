@@ -1,35 +1,11 @@
-using Common;
 using Microsoft.AspNetCore.Mvc;
 using Rhetos;
-using Rhetos.Dom.DefaultConcepts;
-using Rhetos.Processing;
-using Rhetos.Processing.DefaultCommands;
-using Rhetos.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
-using Common.Queryable;
-using System.Data.Entity.ModelConfiguration.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.CommandLine;
-using System.Data.SqlClient;
-using System.Text.Json;
 using System.Data;
-using Skola;
-using Newtonsoft.Json;
 using Skola.Service.Models;
 
 [ApiController]
 [Route("api/[controller]")]
 
-
-//Ispis svih ocjena, predmeta, ucenika, profesora---------------------------------------------------------------------------------------------
 public partial class IspisController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -42,8 +18,8 @@ public partial class IspisController : ControllerBase
         _executionContext = executionContext.Value;
     }
 
-    [HttpGet("ReadIspis")]
-    public IActionResult ReadIspis()
+    [HttpGet("Ispis")]
+    public IActionResult Ispis()
     {
         List<IspisModel> ocjene = new List<IspisModel>();
 

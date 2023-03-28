@@ -1,28 +1,14 @@
-using Common;
 using Microsoft.AspNetCore.Mvc;
 using Rhetos;
 using Rhetos.Dom.DefaultConcepts;
-using Rhetos.Processing;
-using Rhetos.Processing.DefaultCommands;
-using Rhetos.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
 using Common.Queryable;
-using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Data.SqlClient;
-using System.Text.Json;
 using System.Data;
 
 
 [ApiController]
     [Route("api/[controller]")]
 
-
-    //PROFESOR---------------------------------------------------------------------------------------------
     public class ProfesorController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -35,35 +21,17 @@ using System.Data;
             _executionContext = executionContext.Value;
         }
 
-        [HttpGet("ReadProfesor")]
+        [HttpGet("Profesor")]
         public IActionResult ReadProfesor()
         {
             return Ok(_executionContext.Repository.Skola.Profesor.Query().ToList());
         }
 
-        [HttpGet("ReadProfesor/Predmeti")]
+        [HttpGet("Profesor/Predmeti")]
         public IActionResult ReadProfesor([FromQuery] Guid id, [FromQuery] string ime, [FromQuery] string prezime)
         {
             Skola_Profesor result = null;
-
-        /* if (string.IsNullOrEmpty(profesor.Ime))
-         {
-             result = _executionContext.Repository.Skola.Profesor.Query()
-                           .Where(i => i.ID == id)
-                           .FirstOrDefault();
-         }
-         else*/
-        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
-        {
-
-            //result = _executionContext.Repository.Skola.Profesor.Query()
-            //              .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
-            //              .FirstOrDefault();
-            /*   string sql = "EXEC Skola.Predmeti ime, prezime";
-               var sqlParams = new object[] { ime, prezime };
-               var predmeti = _executionContext.EntityFrameworkContext.Database.ExecuteSqlCommand(sql, sqlParams).ToString();
-            */
-
+            {
             List<string> predmeti = new List<string>();
 
             var profesor = _executionContext.Repository.Skola.Profesor.Query()
@@ -102,17 +70,16 @@ using System.Data;
             }
 
         }
-        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+       
         if (result == null)
             {
-                return NotFound("Profesor nije pronaðen");
+                return NotFound("Taj profesor nije u bazi");
             }
 
             return Ok(result);
         }
 
-
-        [HttpPost("WriteProfesor")]
+        [HttpPost("Profesor")]
         public IActionResult WriteProfesor([FromQuery] string ime, [FromQuery] string prezime)
         {
             _executionContext.Repository.Skola.Profesor.Insert(new Skola.Profesor
@@ -126,8 +93,7 @@ using System.Data;
             return NoContent();
         }
 
-
-        [HttpDelete("DeleteProfesor")]
+        [HttpDelete("Profesor")]
         public IActionResult DeleteProfesor([FromQuery] Guid id)
         {
             Skola_Profesor result = null;
@@ -138,7 +104,7 @@ using System.Data;
 
             if (result == null)
             {
-                return NotFound("Profesor  ID = " + id + "  nije pronaðen.");
+                return NotFound("U bazi ne postoji  ID = " + id);
             }
             else
                 _executionContext.Repository.Skola.Profesor.Delete(result);

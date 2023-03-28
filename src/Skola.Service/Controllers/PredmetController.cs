@@ -19,7 +19,6 @@ using Skola;
 [ApiController]
     [Route("api/[controller]")]
 
-    //PREDMET---------------------------------------------------------------------------------------------
     public class PredmetController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -32,13 +31,13 @@ using Skola;
             _executionContext = executionContext.Value;
         }
 
-        [HttpGet("ReadPredmet")]
+        [HttpGet("Predmet")]
         public IActionResult ReadPredmet()
         {
             return Ok(_executionContext.Repository.Skola.Predmet.Query().ToList());
         }
 
-        [HttpGet("ReadPredmet/{id}")]
+        [HttpGet("Predmet/{id}")]
         public IActionResult ReadPredmet([FromRoute] Guid id)
         {
             Skola_Predmet result = null;
@@ -50,14 +49,14 @@ using Skola;
 
             if (result == null)
             {
-                return NotFound("Predmet nije pronaðen");
+                return NotFound("Predmet nije u bazi");
             }
 
             return Ok(result);
         }
 
 
-        [HttpPost("WritePredmet")]
+        [HttpPost("Predmet")]
         public IActionResult WritePredmet([FromQuery] string naziv, [FromQuery] Guid profesorID)
         {
             _executionContext.Repository.Skola.Predmet.Insert(new Skola.Predmet
@@ -72,7 +71,7 @@ using Skola;
         }
 
 
-        [HttpDelete("DeletePredmet")]
+        [HttpDelete("Predmet")]
         public IActionResult DeletePredmet([FromQuery] Guid id)
         {
             Skola_Predmet result = null;
@@ -83,7 +82,7 @@ using Skola;
 
             if (result == null)
             {
-                return NotFound("Predmet  ID = " + id + "  nije pronaðen.");
+                return NotFound("U bazi ne postoji  ID = " + id);
             }
             else
                 _executionContext.Repository.Skola.Predmet.Delete(result);
