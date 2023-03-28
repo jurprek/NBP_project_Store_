@@ -14,10 +14,10 @@ Module Skola//ne smije se zvati kao Baza !!!
 
     Entity Predmet
     {
-        ShortString Naziv { Required; }
+        ShortString Naziv { Required; Unique;}
         Reference Profesor { Required; }
 
-        ItemFilter DuljinaNazivaPredmeta 'item => item.Naziv.Length > 100';         //shortstring je 256
+        ItemFilter DuljinaNazivaPredmeta 'item => item.Naziv.Length > 100';
         InvalidData DuljinaNazivaPredmeta 'Naziv Predmeta je predugaèak';
     }
 
@@ -34,13 +34,47 @@ Module Skola//ne smije se zvati kao Baza !!!
         InvalidData MinOcjena 'Ocjena može biti minmalno 1';
     }  
 
-    Entity Ispit POLYMORPHIC!!
+    Action CreateUcenik '(parameter, repository, userInfo) =>
     {
-        ShortString Code { AutoCode; }
-        datetime DatumIspita;
-        
+        var ucenik = new Skola.Ucenik
+        {
+            ID = parameter.ID ?? Guid.NewGuid(),
+            Ime = parameter.Ime,
+            Prezime = parameter.Prezime
+        };
+        repository.Skola.Ucenik.Insert(ucenik);
+    }'
+    {
+        Guid ID;
+        ShortString Ime;
+        ShortString Prezime;
     }
 
+    Polymorphic Ispit
+    {
+        datetime DatumIspita;
+    }
+
+    Entity IspitKomentar
+    {
+        ShortString Code { AutoCode; }
+        Reference Ispit { Detail; }
+        LongString Komentar;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     SqlProcedure Predmeti
     '@ime VARCHAR(50), @prezime VARCHAR(50)'
     '
@@ -84,7 +118,5 @@ Module Skola//ne smije se zvati kao Baza !!!
     INNER JOIN Predmet P ON OU.PredmetID = P.ID
     INNER JOIN Profesor PR ON P.ProfesorID = PR.ID;
     ';
-
-
-
 }
+
