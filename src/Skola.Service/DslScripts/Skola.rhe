@@ -5,8 +5,20 @@ Module Skola
         ShortString Ime { Required; }
         ShortString Prezime { Required; }
         UniqueMultiple 'Ime Prezime';
+        SaveMethod
+        {
+            AfterSave Broji
+            '
+                int broj = 0;
+                foreach (var item in insertedNew)
+                {
+                    broj++;
+                } 
+            ';
+        }
     }
 
+    
     Entity Profesor
     {
         ShortString Ime { Required; }
