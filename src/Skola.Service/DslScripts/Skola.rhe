@@ -17,7 +17,6 @@ Module Skola
             ';
         }
     }
-
     
     Entity Profesor
     {

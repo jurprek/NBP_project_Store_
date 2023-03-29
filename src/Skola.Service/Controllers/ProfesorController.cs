@@ -63,7 +63,6 @@ using System.Data;
                             string nazivPredmeta = reader.GetString(0);
                             predmeti.Add(nazivPredmeta);
                         }
-
                     }
                 }
                 return Ok(new { profesor, predmeti });
