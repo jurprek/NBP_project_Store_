@@ -21,16 +21,16 @@ using Common.Queryable;
         [HttpGet("Ocjena")]
         public IActionResult Ocjena()
         {
-            return Ok(_executionContext.Repository.Skola.Ocjena.Query().ToList());
+            return Ok(_executionContext.Repository.NBP_project_Store.Ocjena.Query().ToList());
         }
 
         [HttpGet("Ocjena/Filter")]
         public IActionResult ReadOcjena([FromQuery] Guid predmetID, [FromQuery] Guid ucenik)
         {
-            Skola_Ocjena result = null;
+            NBP_project_Store_Ocjena result = null;
 
 
-            result = _executionContext.Repository.Skola.Ocjena.Query()
+            result = _executionContext.Repository.NBP_project_Store.Ocjena.Query()
                           .Where(i => i.UcenikID == ucenik && i.PredmetID == predmetID)
                           .FirstOrDefault();
 
@@ -45,7 +45,7 @@ using Common.Queryable;
         [HttpPost("Ocjena")]
         public IActionResult WriteOcjena([FromQuery] Guid ucenikID, [FromQuery] Guid predmetID, [FromQuery] int ocjena)
         {
-            _executionContext.Repository.Skola.Ocjena.Insert(new Skola.Ocjena
+            _executionContext.Repository.NBP_project_Store.Ocjena.Insert(new NBP_project_Store.Ocjena
             {
                 UcenikID = ucenikID,
                 PredmetID = predmetID,
@@ -61,9 +61,9 @@ using Common.Queryable;
         [HttpDelete("Ocjena")]
         public IActionResult DeleteOcjena([FromQuery] Guid ucenikID, [FromQuery] Guid predmetID)
         {
-            Skola_Ocjena result = null;
+            NBP_project_Store_Ocjena result = null;
 
-            result = _executionContext.Repository.Skola.Ocjena.Query()
+            result = _executionContext.Repository.NBP_project_Store.Ocjena.Query()
                           .Where(i => i.UcenikID == ucenikID && i.PredmetID == predmetID)
                           .FirstOrDefault();
 
@@ -72,7 +72,7 @@ using Common.Queryable;
                 return NotFound("Ocjena ne postoji u bazi.");
             }
             else
-                _executionContext.Repository.Skola.Ocjena.Delete(result);
+                _executionContext.Repository.NBP_project_Store.Ocjena.Delete(result);
 
             _unitOfWork.CommitAndClose();
             return Ok(result);

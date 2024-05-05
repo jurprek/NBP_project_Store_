@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataMigration\**" />
+    <Content Remove="DataMigration\**" />
+    <EmbeddedResource Remove="DataMigration\**" />
+    <None Remove="DataMigration\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Cors" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
@@ -39,10 +46,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.Text.Json" Version="7.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DataMigration\1.0\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -24,17 +24,17 @@ using System.Data;
         [HttpGet("Profesor")]
         public IActionResult ReadProfesor()
         {
-            return Ok(_executionContext.Repository.Skola.Profesor.Query().ToList());
+            return Ok(_executionContext.Repository.NBP_project_Store.Profesor.Query().ToList());
         }
 
         [HttpGet("Profesor/Predmeti")]
         public IActionResult ReadProfesor([FromQuery] Guid id, [FromQuery] string ime, [FromQuery] string prezime)
         {
-            Skola_Profesor result = null;
+            NBP_project_Store_Profesor result = null;
             {
             List<string> predmeti = new List<string>();
 
-            var profesor = _executionContext.Repository.Skola.Profesor.Query()
+            var profesor = _executionContext.Repository.NBP_project_Store.Profesor.Query()
                 .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
                 .FirstOrDefault();
 
@@ -43,7 +43,7 @@ using System.Data;
                 using (var cmd = _executionContext.EntityFrameworkContext.Database.Connection.CreateCommand())
                 {
                     _executionContext.EntityFrameworkContext.Database.Connection.Close();
-                    cmd.CommandText = "Skola.Predmeti";
+                    cmd.CommandText = "NBP_project_Store.Predmeti";
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     var imeParam = new SqlParameter("@ime", SqlDbType.NVarChar, 50);
@@ -81,7 +81,7 @@ using System.Data;
         [HttpPost("Profesor")]
         public IActionResult WriteProfesor([FromQuery] string ime, [FromQuery] string prezime)
         {
-            _executionContext.Repository.Skola.Profesor.Insert(new Skola.Profesor
+            _executionContext.Repository.NBP_project_Store.Profesor.Insert(new NBP_project_Store.Profesor
             {
                 Ime =ime,
                 Prezime = prezime,
@@ -95,9 +95,9 @@ using System.Data;
         [HttpDelete("Profesor")]
         public IActionResult DeleteProfesor([FromQuery] Guid id)
         {
-            Skola_Profesor result = null;
+        NBP_project_Store_Profesor result = null;
 
-            result = _executionContext.Repository.Skola.Profesor.Query()
+            result = _executionContext.Repository.NBP_project_Store.Profesor.Query()
                           .Where(i => i.ID == id)
                           .FirstOrDefault();
 
@@ -106,7 +106,7 @@ using System.Data;
                 return NotFound("U bazi ne postoji  ID = " + id);
             }
             else
-                _executionContext.Repository.Skola.Profesor.Delete(result);
+                _executionContext.Repository.NBP_project_Store.Profesor.Delete(result);
 
             _unitOfWork.CommitAndClose();
             return Ok(result);

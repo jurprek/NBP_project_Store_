@@ -27,7 +27,7 @@ public partial class IspisOcjenaController : ControllerBase
         {
             _executionContext.EntityFrameworkContext.Database.Connection.Close();
 
-            cmd.CommandText = "SELECT * FROM Skola.ocjene";
+            cmd.CommandText = "SELECT * FROM NBP_project_Store.ocjene";
             cmd.CommandType = CommandType.Text;
 
             _executionContext.EntityFrameworkContext.Database.Connection.Open();

@@ -5,7 +5,7 @@ using Common.Queryable;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace Skola
+namespace NBP_project_Store
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -25,21 +25,21 @@ namespace Skola
         [HttpGet("Ucenik")]
         public IActionResult ReadUcenik()
         {
-            return Ok(_executionContext.Repository.Skola.Ucenik.Query().ToList());
+            return Ok(_executionContext.Repository.NBP_project_Store.Ucenik.Query().ToList());
         }
 
         [HttpGet("Ucenik/Predmet")]
         public IActionResult ReadUcenik([FromQuery] Guid id, [FromQuery] string ime, [FromQuery] string prezime)
         {
-            Skola_Ucenik result = null;
+            NBP_project_Store_Ucenik result = null;
             {
                 
-                result = _executionContext.Repository.Skola.Ucenik.Query()
+                result = _executionContext.Repository.NBP_project_Store.Ucenik.Query()
                               .Where(i => i.ID == id || (i.Ime == ime && i.Prezime ==prezime))
                               .FirstOrDefault();
 
                 Dictionary<string, int> predmeti = new Dictionary<string, int>();
-                var ucenik = _executionContext.Repository.Skola.Ucenik.Query()
+                var ucenik = _executionContext.Repository.NBP_project_Store.Ucenik.Query()
                     .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
                     .FirstOrDefault();
 
@@ -49,7 +49,7 @@ namespace Skola
                     {
                         _executionContext.EntityFrameworkContext.Database.Connection.Close();
 
-                        cmd.CommandText = "Skola.Predmeti";
+                        cmd.CommandText = "NBP_project_Store.Predmeti";
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         var imeParam = new SqlParameter("@ime", SqlDbType.NVarChar, 50);
@@ -89,7 +89,7 @@ namespace Skola
         [HttpPost("Ucenik")]
         public IActionResult WriteUcenik([FromQuery] string ime, [FromQuery] string prezime)
         {
-            _executionContext.Repository.Skola.Ucenik.Insert(new Skola.Ucenik
+            _executionContext.Repository.NBP_project_Store.Ucenik.Insert(new NBP_project_Store.Ucenik
             {
                 Ime = ime,
                 Prezime =prezime,
@@ -103,9 +103,9 @@ namespace Skola
         [HttpDelete("Ucenik")]
         public IActionResult DeleteUcenik([FromQuery] Guid id)
         {
-            Skola_Ucenik result = null;
+            NBP_project_Store_Ucenik result = null;
 
-            result = _executionContext.Repository.Skola.Ucenik.Query()
+            result = _executionContext.Repository.NBP_project_Store.Ucenik.Query()
                             .Where(i => i.ID == id)
                             .FirstOrDefault();
 
@@ -114,7 +114,7 @@ namespace Skola
                 return NotFound("Ucenik ne postoji u bazi.");
             }
             else
-                _executionContext.Repository.Skola.Ucenik.Delete(result);
+                _executionContext.Repository.NBP_project_Store.Ucenik.Delete(result);
 
             _unitOfWork.CommitAndClose();
             return Ok(result);

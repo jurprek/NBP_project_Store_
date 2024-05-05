@@ -14,7 +14,7 @@ using System.Runtime.Serialization;
 using Common.Queryable;
 using System.Data.Entity.ModelConfiguration.Configuration;
 
-using Skola;
+using NBP_project_Store;
 
 [ApiController]
     [Route("api/[controller]")]
@@ -34,15 +34,15 @@ using Skola;
         [HttpGet("Predmet")]
         public IActionResult ReadPredmet()
         {
-            return Ok(_executionContext.Repository.Skola.Predmet.Query().ToList());
+            return Ok(_executionContext.Repository.NBP_project_Store.Predmet.Query().ToList());
         }
 
         [HttpGet("Predmet/{id}")]
         public IActionResult ReadPredmet([FromRoute] Guid id)
         {
-            Skola_Predmet result = null;
+            NBP_project_Store_Predmet result = null;
 
-            result = _executionContext.Repository.Skola.Predmet.Query()
+            result = _executionContext.Repository.NBP_project_Store.Predmet.Query()
                               .Where(i => i.ID == id)
                               .FirstOrDefault();
 
@@ -59,7 +59,7 @@ using Skola;
         [HttpPost("Predmet")]
         public IActionResult WritePredmet([FromQuery] string naziv, [FromQuery] Guid profesorID)
         {
-            _executionContext.Repository.Skola.Predmet.Insert(new Skola.Predmet
+            _executionContext.Repository.NBP_project_Store.Predmet.Insert(new NBP_project_Store.Predmet
             {
                 Naziv = naziv,
                 ProfesorID = profesorID
@@ -74,9 +74,9 @@ using Skola;
         [HttpDelete("Predmet")]
         public IActionResult DeletePredmet([FromQuery] Guid id)
         {
-            Skola_Predmet result = null;
+            NBP_project_Store_Predmet result = null;
 
-            result = _executionContext.Repository.Skola.Predmet.Query()
+            result = _executionContext.Repository.NBP_project_Store.Predmet.Query()
                           .Where(i => i.ID == id)
                           .FirstOrDefault();
 
@@ -85,7 +85,7 @@ using Skola;
                 return NotFound("U bazi ne postoji  ID = " + id);
             }
             else
-                _executionContext.Repository.Skola.Predmet.Delete(result);
+                _executionContext.Repository.NBP_project_Store.Predmet.Delete(result);
 
             _unitOfWork.CommitAndClose();
             return Ok(result);
