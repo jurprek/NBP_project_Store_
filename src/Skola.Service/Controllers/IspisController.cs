@@ -6,20 +6,20 @@ using Skola.Service.Models;
 [ApiController]
 [Route("api/[controller]")]
 
-public partial class IspisController : ControllerBase
+public partial class IspisOcjenaController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly Common.ExecutionContext _executionContext;
 
-    public IspisController(IRhetosComponent<Common.ExecutionContext> executionContext,
+    public IspisOcjenaController(IRhetosComponent<Common.ExecutionContext> executionContext,
         IRhetosComponent<IUnitOfWork> unitOfWork)
     {
         _unitOfWork = unitOfWork.Value;
         _executionContext = executionContext.Value;
     }
 
-    [HttpGet("Ispis")]
-    public IActionResult Ispis()
+    [HttpGet("IspisOcjena")]
+    public IActionResult IspisOcjena()
     {
         List<IspisModel> ocjene = new List<IspisModel>();
 
