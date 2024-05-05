@@ -87,8 +87,6 @@ namespace NBP_project_Store
             return NotFound("Kupac nije u bazi");
         }
 
-
-
         [HttpPost("Kupac")]
         public IActionResult WriteKupac([FromQuery] string ime, [FromQuery] string prezime, [FromQuery] Guid predmet)
         {
