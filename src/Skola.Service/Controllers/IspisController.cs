@@ -6,47 +6,47 @@ using Skola.Service.Models;
 [ApiController]
 [Route("api/[controller]")]
 
-public partial class IspisOcjenaController : ControllerBase
+public partial class IspisProdanihPredmetaController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly Common.ExecutionContext _executionContext;
 
-    public IspisOcjenaController(IRhetosComponent<Common.ExecutionContext> executionContext,
+    public IspisProdanihPredmetaController(IRhetosComponent<Common.ExecutionContext> executionContext,
         IRhetosComponent<IUnitOfWork> unitOfWork)
     {
         _unitOfWork = unitOfWork.Value;
         _executionContext = executionContext.Value;
     }
 
-    [HttpGet("IspisOcjena")]
-    public IActionResult IspisOcjena()
+    [HttpGet("IspisProdanihPredmeta")]
+    public IActionResult IspisProdanihPredmeta()
     {
-        List<IspisModel> ocjene = new List<IspisModel>();
+        List<String> formattedGuids = new List<String>();
 
         using (var cmd = _executionContext.EntityFrameworkContext.Database.Connection.CreateCommand())
         {
             _executionContext.EntityFrameworkContext.Database.Connection.Close();
 
-            cmd.CommandText = "SELECT * FROM NBP_project_Store.ocjene";
+            cmd.CommandText = "select * from NBP_project_Store.Pregled";
             cmd.CommandType = CommandType.Text;
 
             _executionContext.EntityFrameworkContext.Database.Connection.Open();
 
+            
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    string ImeUcenika = reader.GetString(0);
-                    string PrezimeUcenika = reader.GetString(1);
-                    string ImeProfesora = reader.GetString(2);
-                    string PrezimeProfesora = reader.GetString(3);
-                    string NazivPredmeta = reader.GetString(4);
-                    int ZakljucnaOcjena = reader.GetInt32(5);
-                    IspisModel ocjena = new IspisModel(ImeUcenika, PrezimeUcenika, ImeProfesora, PrezimeProfesora, NazivPredmeta, ZakljucnaOcjena);
-                    ocjene.Add(ocjena);
+                    Guid Trgovac = reader.GetGuid(0);
+                    Guid Poslovnica = reader.GetGuid(1);
+                    Guid Predmet = reader.GetGuid(2);
+                    Guid Kupac = reader.GetGuid(3);
+
+                    string formattedGuid = $"Poslovnica: {Poslovnica}, Trgovac: {Trgovac}, Predmet: {Predmet}, Kupac: {Kupac}";
+                    formattedGuids.Add(formattedGuid);
                 }
             }
-            return Ok(ocjene);
         }
+        return Ok(formattedGuids);
     }
 }

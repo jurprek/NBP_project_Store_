@@ -2,21 +2,18 @@
 {
     public class IspisModel
     {
-        public string ImeUcenika { get; set; }
-        public string PrezimeUcenika { get; set; }
-        public string ImeProfesora { get; set; }
-        public string PrezimeProfesora { get; set; }
-        public string NazivPredmeta { get; set; }
-        public int ZakljucnaOcjena { get; set; }
+        public Guid Trgovac { get; set; }
+        public Guid Poslovnica { get; set; }
+        public Guid Predmet { get; set; }
+        public Guid Kupac { get; set; }
 
-        public IspisModel(string imeUcenika, string prezimeUcenika, string imeProfesora, string prezimeProfesora, string nazivPredmeta, int zakljucnaOcjena)
+
+        public IspisModel(Guid Trgovac, Guid Poslovnica, Guid Predmet, Guid Kupac)
         {
-            ImeUcenika = imeUcenika;
-            PrezimeUcenika = prezimeUcenika;
-            ImeProfesora = imeProfesora;
-            PrezimeProfesora = prezimeProfesora;
-            NazivPredmeta = nazivPredmeta;
-            ZakljucnaOcjena = zakljucnaOcjena;
+            Trgovac = Trgovac;
+            Poslovnica = Poslovnica;
+            Predmet = Predmet;
+            Kupac = Kupac;
         }
     }
 }

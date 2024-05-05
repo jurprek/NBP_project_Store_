@@ -1,129 +1,47 @@
 Module NBP_project_Store
 {
-    Entity Ucenik
+    Entity Poslovnica
     {
-        ShortString Ime { Required; }
-        ShortString Prezime { Required; }
-        UniqueMultiple 'Ime Prezime';
-        SaveMethod
-        {
-            AfterSave Broji
-            '
-                int broj = 0;
-                foreach (var item in insertedNew)
-                {
-                    broj++;
-                } 
-            ';
-        }
+        ShortString Naziv { Required; Unique;}
+
+        ItemFilter DuljinaNazivaPoslovnice 'item => item.Naziv.Length > 100';
+        InvalidData DuljinaNazivaPoslovnice 'Naziv Poslovnice je predugaèak';
     }
     
-    Entity Profesor
+    Entity Trgovac
     {
         ShortString Ime { Required; }
-        ShortString Prezime { Required; }
+        ShortString Prezime { Required; } 
+        
+        Reference Poslovnica { Required; }
     }
 
     Entity Predmet
     {
-        ShortString Naziv { Required; Unique;}
-        Reference Profesor { Required; }
+        ShortString Naziv { Required; }
+        Reference Poslovnica { Required; }
 
-        ItemFilter DuljinaNazivaPredmeta 'item => item.Naziv.Length > 100';
-        InvalidData DuljinaNazivaPredmeta 'Naziv Predmeta je predugaèak';
+        ItemFilter DuljinaNazivaPredmeta_predug 'item => item.Naziv.Length > 100';
+        InvalidData DuljinaNazivaPredmeta_predug 'Naziv Predmeta je predugaèak';
+
+        ItemFilter DuljinaNazivaPredmeta_prekratak 'item => item.Naziv.Length < 3';
+        InvalidData DuljinaNazivaPredmeta_prekratak 'Naziv Predmeta je prekratak';
     }
-
-    Entity Ocjena
+    
+    Entity Kupac
     {
-        Reference Ucenik { Required; }
-        Reference Predmet { Required; }
-        Integer ocjena;
-
-        ItemFilter MaxOcjena 'item => item.ocjena.Value > 5';
-        InvalidData MaxOcjena 'Ocjena može biti maksimalno 5';
-
-        ItemFilter MinOcjena 'item => item.ocjena.Value < 1';
-        InvalidData MinOcjena 'Ocjena može biti minmalno 1';
-
-    } 
-
-    Computed IzracunajProsjek 
-    'repository =>
-    {
-        var ucenici = repository.NBP_project_Store.Ucenik.Query()
-        .Select(u =>
-            new
-            {
-                u.ID,
-                u.Ime,
-                u.Prezime
-                })
-        .ToList();
-
-        var prosjeci = new List<IzracunajProsjek>();
-        foreach (var ucenik in ucenici)
-        {
-            decimal prosjek = 0;
-            int brojnost = 0;
-
-            prosjek = 3;    //izracunaj pravi prosjek
-                        
-            prosjeci.Add(new IzracunajProsjek { ID = ucenik.ID, Prosjek = prosjek });
-        }
-
-        return prosjeci.ToArray();
-        }
-    '
-
-    {
-    Extends NBP_project_Store.Ucenik;
-    Decimal Prosjek;
-    }
-
-
-
-    Action CreateUcenik '(parameter, repository, userInfo) =>
-    {
-        var ucenik = new NBP_project_Store.Ucenik
-        {
-            ID = parameter.ID ?? Guid.NewGuid(),
-            Ime = parameter.Ime,
-            Prezime = parameter.Prezime
-        };
-        repository.NBP_project_Store.Ucenik.Insert(ucenik);
-    }'
-    {
-        Guid ID;
         ShortString Ime;
         ShortString Prezime;
+        
+        Reference Predmet { Required; }
     }
 
-    Polymorphic Ispit
-    {
-        datetime DatumIspita;
-    }
-
-    Entity IspitKomentar
-    {
-        ShortString Code { AutoCode; }
-        Reference Ispit { Detail; }
-        LongString Komentar;
-    }
-    
-    SqlProcedure Predmeti
-    '@ime VARCHAR(50), @prezime VARCHAR(50)'
+    SqlView Pregled
     '
-    BEGIN
-        DECLARE @jeUcenik BIT
-        DECLARE @jeProfesor BIT
-        SELECT * FROM Ucenik
-    END
-    ';
-    
-    SqlView Ocjene
-    '
-    SELECT * FROM Profesor
-  
+        select poslovnica.id as Poslovnica, trgovac.id as Trgovac, predmet.id as Predmet, kupac.id as Kupac from NBP_project_Store.Kupac kupac
+        left join NBP_project_Store.Predmet predmet on predmet.id=kupac.PredmetID
+        left join NBP_project_Store.Poslovnica poslovnica on poslovnica.id=predmet.poslovnicaID
+        left join NBP_project_Store.Trgovac trgovac on trgovac.PoslovnicaID =predmet.PoslovnicaID
     ';
 }
 

@@ -1,94 +1,81 @@
-using Common;
 using Microsoft.AspNetCore.Mvc;
 using Rhetos;
 using Rhetos.Dom.DefaultConcepts;
-using Rhetos.Processing;
-using Rhetos.Processing.DefaultCommands;
-using Rhetos.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
 using Common.Queryable;
-using System.Data.Entity.ModelConfiguration.Configuration;
-
 using NBP_project_Store;
 
 [ApiController]
-    [Route("api/[controller]")]
+[Route("api/[controller]")]
 
-    public class PredmetController : ControllerBase
+public class PredmetController : ControllerBase
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly Common.ExecutionContext _executionContext;
+
+    public PredmetController(IRhetosComponent<Common.ExecutionContext> executionContext,
+        IRhetosComponent<IUnitOfWork> unitOfWork)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Common.ExecutionContext _executionContext;
-
-        public PredmetController(IRhetosComponent<Common.ExecutionContext> executionContext,
-            IRhetosComponent<IUnitOfWork> unitOfWork)
-        {
-            _unitOfWork = unitOfWork.Value;
-            _executionContext = executionContext.Value;
-        }
-
-        [HttpGet("Predmet")]
-        public IActionResult ReadPredmet()
-        {
-            return Ok(_executionContext.Repository.NBP_project_Store.Predmet.Query().ToList());
-        }
-
-        [HttpGet("Predmet/{id}")]
-        public IActionResult ReadPredmet([FromRoute] Guid id)
-        {
-            NBP_project_Store_Predmet result = null;
-
-            result = _executionContext.Repository.NBP_project_Store.Predmet.Query()
-                              .Where(i => i.ID == id)
-                              .FirstOrDefault();
-
-
-            if (result == null)
-            {
-                return NotFound("Predmet nije u bazi");
-            }
-
-            return Ok(result);
-        }
-
-
-        [HttpPost("Predmet")]
-        public IActionResult WritePredmet([FromQuery] string naziv, [FromQuery] Guid profesorID)
-        {
-            _executionContext.Repository.NBP_project_Store.Predmet.Insert(new NBP_project_Store.Predmet
-            {
-                Naziv = naziv,
-                ProfesorID = profesorID
-            });
-
-            _unitOfWork.CommitAndClose();
-
-            return NoContent();
-        }
-
-
-        [HttpDelete("Predmet")]
-        public IActionResult DeletePredmet([FromQuery] Guid id)
-        {
-            NBP_project_Store_Predmet result = null;
-
-            result = _executionContext.Repository.NBP_project_Store.Predmet.Query()
-                          .Where(i => i.ID == id)
-                          .FirstOrDefault();
-
-            if (result == null)
-            {
-                return NotFound("U bazi ne postoji  ID = " + id);
-            }
-            else
-                _executionContext.Repository.NBP_project_Store.Predmet.Delete(result);
-
-            _unitOfWork.CommitAndClose();
-            return Ok(result);
-        }
+        _unitOfWork = unitOfWork.Value;
+        _executionContext = executionContext.Value;
     }
+
+    [HttpGet("Predmet")]
+    public IActionResult Predmet()
+    {
+        return Ok(_executionContext.Repository.NBP_project_Store.Predmet.Query().ToList());
+    }
+
+    [HttpGet("Predmet/Filter")]
+    public IActionResult ReadPredmet([FromQuery] Guid PredmetID, [FromQuery] Guid predmet)
+    {
+        NBP_project_Store_Predmet result = null;
+
+
+        result = _executionContext.Repository.NBP_project_Store.Predmet.Query()
+                                //.Where(i => i.PredmetID == predmet)
+                                .FirstOrDefault();
+
+        if (result == null)
+        {
+            return NotFound("Predmet ne postoji u bazi.");
+        }
+
+        return Ok(result);
+    }
+
+    [HttpPost("Predmet")]
+    public IActionResult WritePredmet([FromQuery] string predmet, [FromQuery] Guid poslovnica)
+    {
+        _executionContext.Repository.NBP_project_Store.Predmet.Insert(new NBP_project_Store.Predmet
+        {
+            Naziv = predmet,
+            PoslovnicaID = poslovnica
+        });
+
+        _unitOfWork.CommitAndClose();
+
+        return NoContent();
+    }
+
+
+    [HttpDelete("Predmet")]
+    public IActionResult DeletePredmet([FromQuery] Guid kupcaID, [FromQuery] Guid predmetID)
+    {
+        NBP_project_Store_Predmet result = null;
+
+        result = _executionContext.Repository.NBP_project_Store.Predmet.Query()
+                       .FirstOrDefault();
+
+        if (result == null)
+        {
+            return NotFound("Predmet ne postoji u bazi.");
+        }
+        else
+            _executionContext.Repository.NBP_project_Store.Predmet.Delete(result);
+
+        _unitOfWork.CommitAndClose();
+        return Ok(result);
+    }
+}
+
 
