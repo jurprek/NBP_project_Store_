@@ -1,11 +1,11 @@
-Module NBP_project_Store
+ï»¿Module NBP_project_Store
 {
     Entity Poslovnica
     {
         ShortString Naziv { Required; Unique;}
 
         ItemFilter DuljinaNazivaPoslovnice 'item => item.Naziv.Length > 100';
-        InvalidData DuljinaNazivaPoslovnice 'Naziv Poslovnice je predugaèak';
+        InvalidData DuljinaNazivaPoslovnice 'Naziv Poslovnice je predugaÃ¨ak';
     }
     
     Entity Trgovac
@@ -22,7 +22,7 @@ Module NBP_project_Store
         Reference Poslovnica { Required; }
 
         ItemFilter DuljinaNazivaPredmeta_predug 'item => item.Naziv.Length > 100';
-        InvalidData DuljinaNazivaPredmeta_predug 'Naziv Predmeta je predugaèak';
+        InvalidData DuljinaNazivaPredmeta_predug 'Naziv Predmeta je predugaÃ¨ak';
 
         ItemFilter DuljinaNazivaPredmeta_prekratak 'item => item.Naziv.Length < 3';
         InvalidData DuljinaNazivaPredmeta_prekratak 'Naziv Predmeta je prekratak';
@@ -38,10 +38,6 @@ Module NBP_project_Store
 
     SqlView Pregled
     '
-        select poslovnica.id as Poslovnica, trgovac.id as Trgovac, predmet.id as Predmet, kupac.id as Kupac from NBP_project_Store.Kupac kupac
-        left join NBP_project_Store.Predmet predmet on predmet.id=kupac.PredmetID
-        left join NBP_project_Store.Poslovnica poslovnica on poslovnica.id=predmet.poslovnicaID
-        left join NBP_project_Store.Trgovac trgovac on trgovac.PoslovnicaID =predmet.PoslovnicaID
+        select poslovnica.id as Poslovnica from NBP_project_Store.Poslovnica
     ';
 }
-

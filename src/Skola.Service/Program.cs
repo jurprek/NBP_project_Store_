@@ -1,3 +1,5 @@
+using Autofac.Core;
+using NBP_project_Store.Service;
 using Rhetos;
 
 const string ORIGIN_NAME = "_myAllowSpecificOrigins";
@@ -23,7 +25,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddSingleton<MongoDBContext>();
 
 
 var app = builder.Build();
