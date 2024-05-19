@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using Skola.Service.Models;
+using System.Collections.Generic;
 
 namespace NBP_project_Store.Service
 {
@@ -20,9 +21,9 @@ namespace NBP_project_Store.Service
             return _laptops.Find(laptop => true).ToList();
         }
 
-        public Laptop GetLaptopById(string predmetId)
+        public Laptop GetLaptopById(string id_laptop)
         {
-            return _laptops.Find<Laptop>(laptop => laptop.PredmetId == predmetId).FirstOrDefault();
+            return _laptops.Find(laptop => laptop.Id_Laptop == id_laptop).FirstOrDefault();
         }
 
         public Laptop CreateLaptop(Laptop laptop)
@@ -31,14 +32,14 @@ namespace NBP_project_Store.Service
             return laptop;
         }
 
-        public void UpdateLaptop(string predmetId, Laptop laptopIn)
+        public void UpdateLaptop(string id_laptop, Laptop laptopIn)
         {
-            _laptops.ReplaceOne(laptop => laptop.PredmetId == predmetId, laptopIn);
+            _laptops.ReplaceOne(laptop => laptop.Id_Laptop == id_laptop, laptopIn);
         }
 
-        public void DeleteLaptop(string predmetId)
+        public void DeleteLaptop(string id_laptop)
         {
-            _laptops.DeleteOne(laptop => laptop.PredmetId == predmetId);
+            _laptops.DeleteOne(laptop => laptop.Id_Laptop == id_laptop);
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     Entity Poslovnica
     {
+        ShortString Id_Poslovnica;
         ShortString Naziv { Required; Unique;}
 
         ItemFilter DuljinaNazivaPoslovnice 'item => item.Naziv.Length > 100';
@@ -10,34 +11,28 @@
     
     Entity Trgovac
     {
+        ShortString Id_Trgovac;
         ShortString Ime { Required; }
         ShortString Prezime { Required; } 
-        
-        Reference Poslovnica { Required; }
     }
 
     Entity Predmet
     {
+        ShortString Id_Predmet;
         ShortString Naziv { Required; }
-        Reference Poslovnica { Required; }
-
-        ItemFilter DuljinaNazivaPredmeta_predug 'item => item.Naziv.Length > 100';
-        InvalidData DuljinaNazivaPredmeta_predug 'Naziv Predmeta je predugaèak';
-
-        ItemFilter DuljinaNazivaPredmeta_prekratak 'item => item.Naziv.Length < 3';
-        InvalidData DuljinaNazivaPredmeta_prekratak 'Naziv Predmeta je prekratak';
     }
     
     Entity Kupac
     {
+        ShortString Id_Kupac;
         ShortString Ime;
         ShortString Prezime;
-        
-        Reference Predmet { Required; }
     }
 
-    SqlView Pregled
-    '
-        select poslovnica.id as Poslovnica from NBP_project_Store.Poslovnica
-    ';
+    Entity Kupnja
+    {   
+        ShortString Id_Kupnja;
+        Reference Kupac { Required; }
+        Reference Predmet { Required; }
+    }
 }

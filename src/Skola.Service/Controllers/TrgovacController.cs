@@ -27,66 +27,31 @@ using NBP_project_Store;
             return Ok(_executionContext.Repository.NBP_project_Store.Trgovac.Query().ToList());
         }
 
-        [HttpGet("Trgovac/Poslovnice")]
-        public IActionResult ReadTrgovac([FromQuery] Guid id, [FromQuery] string ime, [FromQuery] string prezime)
+    [HttpGet("Trgovac/Id")]
+    public IActionResult ReadTrgovac([FromQuery] string id_trgovac, [FromQuery] string ime, [FromQuery] string prezime)
+    {
+        var results = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
+                              .Where(i => i.Id_Trgovac == id_trgovac || (i.Ime == ime && i.Prezime == prezime))
+                              .ToList();
+        if (results == null || !results.Any())
         {
-        NBP_project_Store_Trgovac result = null;
-            {
-            List<string> poslovnice = new List<string>();
-
-            var trgovac = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
-                .Where(i => i.ID == id || (i.Ime == ime && i.Prezime == prezime))
-                .FirstOrDefault();
-
-            if (trgovac != null)
-            {
-                using (var cmd = _executionContext.EntityFrameworkContext.Database.Connection.CreateCommand())
-                {
-                    _executionContext.EntityFrameworkContext.Database.Connection.Close();
-                    cmd.CommandText = "NBP_project_Store.Poslovnice";
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    var imeParam = new SqlParameter("@ime", SqlDbType.NVarChar, 50);
-                    imeParam.Value = trgovac.Ime;
-                    cmd.Parameters.Add(imeParam);
-
-                    var prezimeParam = new SqlParameter("@prezime", SqlDbType.NVarChar, 50);
-                    prezimeParam.Value = trgovac.Prezime;
-                    cmd.Parameters.Add(prezimeParam);
-
-                    _executionContext.EntityFrameworkContext.Database.Connection.Open();
-
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string nazivPoslovnice = reader.GetString(0);
-                            poslovnice.Add(nazivPoslovnice);
-                        }
-                    }
-                }
-                return Ok(new { trgovac, poslovnice });
-            }
-
-        }
-       
-        if (result == null)
-            {
-                return NotFound("Taj trgovac nije u bazi");
-            }
-
-            return Ok(result);
+            return NotFound("Trgovac nije u bazi");
         }
 
-        [HttpPost("Trgovac")]
-        public IActionResult WriteTrgovac([FromQuery] string ime, [FromQuery] string prezime, [FromQuery] Guid poslovnica)
+        return Ok(results);
+    }
+
+
+
+    [HttpPost("Trgovac")]
+        public IActionResult WriteTrgovac([FromQuery] string ime, [FromQuery] string prezime, [FromQuery] string id_trgovac)
         {
         _executionContext.Repository.NBP_project_Store.Trgovac.Insert(new NBP_project_Store.Trgovac
         {
+            Id_Trgovac = id_trgovac,
             Ime = ime,
-            Prezime = prezime,
-            PoslovnicaID = poslovnica
-        }) ;
+            Prezime = prezime
+            }) ;
 
             _unitOfWork.CommitAndClose();
 
@@ -94,17 +59,17 @@ using NBP_project_Store;
         }
 
         [HttpDelete("Trgovac")]
-        public IActionResult DeleteTrgovac([FromQuery] Guid id)
+        public IActionResult DeleteTrgovac([FromQuery] string id_trgovac)
         {
             NBP_project_Store_Trgovac result = null;
 
             result = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
-                          .Where(i => i.ID == id)
+                          .Where(i => i.Id_Trgovac == id_trgovac)
                           .FirstOrDefault();
 
             if (result == null)
             {
-                return NotFound("U bazi ne postoji  ID = " + id);
+                return NotFound("U bazi ne postoji  ID = " + id_trgovac);
             }
             else
                 _executionContext.Repository.NBP_project_Store.Trgovac.Delete(result);

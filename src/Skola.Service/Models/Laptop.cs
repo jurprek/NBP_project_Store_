@@ -9,6 +9,9 @@ namespace Skola.Service.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string PredmetId { get; set; }
+        
+        [BsonElement("Id_Laptop")]
+        public string Id_Laptop { get; set; }
 
         [BsonElement("model")]
         public string Model { get; set; }

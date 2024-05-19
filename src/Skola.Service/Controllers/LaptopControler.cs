@@ -8,28 +8,30 @@ namespace Skola.Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LaptopsController : ControllerBase
+    public class LaptopController : ControllerBase
     {
         private readonly MongoDBContext _laptopService;
+        private readonly IPredmetManager _predmetManager;
 
-        public LaptopsController(MongoDBContext laptopService)
+        public LaptopController(MongoDBContext laptopService, IPredmetManager predmetManager)
         {
             _laptopService = laptopService;
+            _predmetManager = predmetManager;
         }
 
-        // GET: api/Laptops
+        // GET: api/Laptop
         [HttpGet]
-        public ActionResult<List<Laptop>> GetLaptops()
+        public ActionResult<List<Laptop>> GetLaptop()
         {
             var laptops = _laptopService.GetLaptops();
             return Ok(laptops);
         }
 
-        // GET: api/Laptops/5
-        [HttpGet("{id:length(24)}", Name = "GetLaptop")]
-        public ActionResult<Laptop> GetLaptop(string id)
+        // GET: api/Laptop
+        [HttpGet("Laptop/id")]
+        public ActionResult<Laptop> GetLaptop(string id_laptop)
         {
-            var laptop = _laptopService.GetLaptopById(id);
+            var laptop = _laptopService.GetLaptopById(id_laptop);
 
             if (laptop == null)
             {
@@ -39,13 +41,21 @@ namespace Skola.Service.Controllers
             return Ok(laptop);
         }
 
-        // POST: api/Laptops
+
+
         [HttpPost]
         public ActionResult<Laptop> CreateLaptop(Laptop laptop)
         {
+            // Prvo stvaramo Laptop u MongoDB-u.
             _laptopService.CreateLaptop(laptop);
-            return CreatedAtRoute("GetLaptop", new { id = laptop.PredmetId }, laptop);
+
+            // Zatim stvaramo Predmet u SQL bazi na temelju podataka iz tog Laptopa.
+            _predmetManager.KreirajPredmetIzLaptopa(laptop.Model);
+
+            // Vraæamo odgovor o uspješno stvorenom Laptopu.
+            return CreatedAtRoute("GetLaptop", new { id = laptop.Model }, laptop);
         }
+
 
         // PUT: api/Laptops/5
         [HttpPut("{id:length(24)}")]
@@ -64,17 +74,17 @@ namespace Skola.Service.Controllers
         }
 
         // DELETE: api/Laptops/5
-        [HttpDelete("{id:length(24)}")]
-        public IActionResult DeleteLaptop(string id)
+        [HttpDelete("Laptop")]
+        public IActionResult DeleteLaptop(string id_laptop)
         {
-            var laptop = _laptopService.GetLaptopById(id);
+            var laptop = _laptopService.GetLaptopById(id_laptop);
 
             if (laptop == null)
             {
                 return NotFound();
             }
 
-            _laptopService.DeleteLaptop(id);
+            _laptopService.DeleteLaptop(id_laptop);
 
             return NoContent();
         }

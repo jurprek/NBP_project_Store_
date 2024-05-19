@@ -37,30 +37,28 @@ using NBP_project_Store;
             return Ok(_executionContext.Repository.NBP_project_Store.Poslovnica.Query().ToList());
         }
 
-        [HttpGet("Poslovnica/{id}")]
-        public IActionResult ReadPoslovnica([FromRoute] Guid id)
+    [HttpGet("Poslovnica/Id")]
+    public IActionResult ReadPoslovnica([FromQuery] string id_poslovnica, [FromQuery] string naziv)
+    {
+        var results = _executionContext.Repository.NBP_project_Store.Poslovnica.Query()
+                              .Where(i => i.Id_Poslovnica == id_poslovnica || i.Naziv == naziv)
+                              .ToList();
+        if (results == null || !results.Any())
         {
-            NBP_project_Store_Poslovnica result = null;
-
-            result = _executionContext.Repository.NBP_project_Store.Poslovnica.Query()
-                              .Where(i => i.ID == id)
-                              .FirstOrDefault();
-
-
-            if (result == null)
-            {
-                return NotFound("Poslovnica nije u bazi");
-            }
-
-            return Ok(result);
+            return NotFound("Poslovnica nije u bazi");
         }
 
+        return Ok(results);
+    }
 
-        [HttpPost("Poslovnica")]
-        public IActionResult WritePoslovnica([FromQuery] string naziv, [FromQuery] Guid trgovacID)
+
+
+    [HttpPost("Poslovnica")]
+        public IActionResult WritePoslovnica([FromQuery] string naziv, [FromQuery] string poslovnicaID)
         {
             _executionContext.Repository.NBP_project_Store.Poslovnica.Insert(new NBP_project_Store.Poslovnica
             {
+                Id_Poslovnica = poslovnicaID,
                 Naziv = naziv,
             });
 

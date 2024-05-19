@@ -44,12 +44,12 @@ public class PredmetController : ControllerBase
     }
 
     [HttpPost("Predmet")]
-    public IActionResult WritePredmet([FromQuery] string predmet, [FromQuery] Guid poslovnica)
+    public IActionResult WritePredmet([FromQuery] string predmet, [FromQuery] string id_predmet)
     {
         _executionContext.Repository.NBP_project_Store.Predmet.Insert(new NBP_project_Store.Predmet
         {
-            Naziv = predmet,
-            PoslovnicaID = poslovnica
+            Id_Predmet = id_predmet,
+            Naziv = predmet
         });
 
         _unitOfWork.CommitAndClose();
