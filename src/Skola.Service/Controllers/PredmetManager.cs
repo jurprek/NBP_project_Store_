@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿// PredmetManager
+using MongoDB.Bson;
 using MongoDB.Driver;
 using NBP_project_Store;
 
@@ -15,28 +16,21 @@ public class PredmetManager : IPredmetManager
 
     public void KreirajPredmetIzLaptopa(string laptopId)
     {
-        var laptopFilter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(laptopId));
+        var laptopFilter = Builders<BsonDocument>.Filter.Eq("Id_Laptopa", laptopId);
         var laptopDocument = _laptopCollection.Find(laptopFilter).FirstOrDefault();
 
         if (laptopDocument != null)
         {
             var naziv = laptopDocument["model"].AsString;
-            var poslovnicaId = laptopDocument["poslovnicaId"].AsString;
 
-            var poslovnicaCollection = _mongoDatabase.GetCollection<Poslovnica>("Poslovnica");
-            var poslovnica = poslovnicaCollection.Find(p => p.Id_Poslovnica == poslovnicaId).FirstOrDefault();
-
-            if (poslovnica != null)
+            var predmetCollection = _mongoDatabase.GetCollection<Predmet>("Predmet");
+            var newPredmet = new Predmet
             {
-                var predmetCollection = _mongoDatabase.GetCollection<Predmet>("Predmet");
-                var newPredmet = new Predmet
-                {
-                    Naziv = naziv,
-                   // Poslovnica = poslovnica
-                };
+                Naziv = naziv,
+                Id_Predmet = laptopId
+            };
 
-                predmetCollection.InsertOne(newPredmet);
-            }
+            predmetCollection.InsertOne(newPredmet);
         }
     }
 }

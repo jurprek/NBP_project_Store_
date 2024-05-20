@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Rhetos;
 using Rhetos.Dom.DefaultConcepts;
@@ -32,7 +33,7 @@ public class PredmetController : ControllerBase
 
 
         result = _executionContext.Repository.NBP_project_Store.Predmet.Query()
-                              //.Where(i => i.PredmetID == predmet)
+                                //.Where(i => i.PredmetID == predmet)
                                 .FirstOrDefault();
 
         if (result == null)
@@ -77,5 +78,3 @@ public class PredmetController : ControllerBase
         return Ok(result);
     }
 }
-
-
