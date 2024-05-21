@@ -6,6 +6,10 @@ using NBP_project_Store;
 using Rhetos;
 using Rhetos.Dom.DefaultConcepts;
 using Common.Queryable;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.ConstrainedExecution;
 
 namespace Skola.Service.Controllers
 {
@@ -49,6 +53,61 @@ namespace Skola.Service.Controllers
             return Ok(laptop);
         }
 
+        [HttpGet("Laptop/keyword")]
+        public ActionResult<List<Laptop>> GetLaptop_keyword(string keyword)
+        {
+            keyword = keyword.ToLower();
+
+            var laptops = _mongoDBContext.GetLaptops()
+                .Where(l => (l.Id_Laptop != null && l.Id_Laptop.ToLower().Contains(keyword)) ||
+                            (l.Model != null && l.Model.ToLower().Contains(keyword)) ||
+                            (l.Processor != null && (
+                                (l.Processor.Type != null && l.Processor.Type.ToLower().Contains(keyword)) ||
+                                l.Processor.Cores.ToString().Contains(keyword) ||
+                                l.Processor.MaxSpeedGHz.ToString().Contains(keyword)
+                            )) ||
+                            (l.Ram != null && (
+                                l.Ram.SizeGB.ToString().Contains(keyword) ||
+                                (l.Ram.Type != null && l.Ram.Type.ToLower().Contains(keyword))
+                            )) ||
+                            (l.Screen != null && (
+                                l.Screen.SizeInches.ToString().Contains(keyword) ||
+                                (l.Screen.Resolution != null && l.Screen.Resolution.ToLower().Contains(keyword)) ||
+                                (l.Screen.Type != null && l.Screen.Type.ToLower().Contains(keyword))
+                            )) ||
+                            (l.Storage != null && (
+                                l.Storage.SizeGB.ToString().Contains(keyword) ||
+                                (l.Storage.Type != null && l.Storage.Type.ToLower().Contains(keyword))
+                            )) ||
+                            (l.OS != null && l.OS.ToLower().Contains(keyword)) ||
+                            (l.Graphics != null && l.Graphics.Type != null && l.Graphics.Type.ToLower().Contains(keyword)) ||
+                            (l.Network != null && (
+                                l.Network.Wifi.ToString().Contains(keyword) ||
+                                l.Network.Ethernet.ToString().Contains(keyword) ||
+                                l.Network.Bluetooth.ToString().Contains(keyword)
+                            )) ||
+                            (l.Ports != null && (
+                                l.Ports.USB2_0.ToString().Contains(keyword) ||
+                                l.Ports.USB3_1.ToString().Contains(keyword) ||
+                                l.Ports.USBTypeC.ToString().Contains(keyword) ||
+                                l.Ports.HDMI.ToString().Contains(keyword)
+                            )) ||
+                            l.WeightKg.ToString().Contains(keyword) ||
+                            (l.Color != null && l.Color.ToLower().Contains(keyword)) ||
+                            l.WarrantyMonths.ToString().Contains(keyword) ||
+                            (l.AdditionalFeatures != null && l.AdditionalFeatures.Any(feature => feature.ToLower().Contains(keyword)))
+                 )
+                .ToList();
+
+            if (laptops.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(laptops);
+        }
+
+
         [HttpPost("Laptop")]
         public ActionResult<Laptop> CreateLaptop(Laptop laptop)
         {
@@ -65,35 +124,28 @@ namespace Skola.Service.Controllers
             _unitOfWork.CommitAndClose();
 
             // Vraæamo odgovor o uspješno stvorenom Laptopu
-            return CreatedAtAction(nameof(GetLaptop), new { id = laptop.Id_Laptop }, laptop);//, NoContent();
+            return CreatedAtAction(nameof(GetLaptop), new { id_laptop = laptop.Id_Laptop }, laptop);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateLaptop(string id, Laptop updatedLaptop)
+        [HttpDelete("{id_laptop}")]
+        public IActionResult DeleteLaptop(string id_laptop)
         {
-            var laptop = _mongoDBContext.GetLaptopById(id);
+            var laptop = _mongoDBContext.GetLaptopById(id_laptop);
 
             if (laptop == null)
             {
                 return NotFound();
             }
 
-            _mongoDBContext.UpdateLaptop(id, updatedLaptop);
+            _mongoDBContext.DeleteLaptop(id_laptop);
 
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteLaptop(string id)
-        {
-            var laptop = _mongoDBContext.GetLaptopById(id);
-
-            if (laptop == null)
+            // Brišemo odgovarajuæi Predmet u SQL bazi
+            var predmet = _executionContext.Repository.NBP_project_Store.Predmet.Query(p => p.Id_Predmet == id_laptop).FirstOrDefault();
+            if (predmet != null)
             {
-                return NotFound();
+                _executionContext.Repository.NBP_project_Store.Predmet.Delete(predmet);
+                _unitOfWork.CommitAndClose();
             }
-
-            _mongoDBContext.DeleteLaptop(id);
 
             return NoContent();
         }

@@ -27,23 +27,21 @@ using NBP_project_Store;
             return Ok(_executionContext.Repository.NBP_project_Store.Trgovac.Query().ToList());
         }
 
-    [HttpGet("Trgovac/Id")]
-    public IActionResult ReadTrgovac([FromQuery] string id_trgovac, [FromQuery] string ime, [FromQuery] string prezime)
-    {
-        var results = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
-                              .Where(i => i.Id_Trgovac == id_trgovac || (i.Ime == ime && i.Prezime == prezime))
-                              .ToList();
-        if (results == null || !results.Any())
+        [HttpGet("Trgovac/Id")]
+        public IActionResult ReadTrgovac([FromQuery] string id_trgovac, [FromQuery] string ime, [FromQuery] string prezime)
         {
-            return NotFound("Trgovac nije u bazi");
+            var results = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
+                                  .Where(i => i.Id_Trgovac == id_trgovac || (i.Ime == ime && i.Prezime == prezime))
+                                  .ToList();
+            if (results == null || !results.Any())
+            {
+                return NotFound("Trgovac nije u bazi");
+            }
+
+            return Ok(results);
         }
 
-        return Ok(results);
-    }
-
-
-
-    [HttpPost("Trgovac")]
+        [HttpPost("Trgovac")]
         public IActionResult WriteTrgovac([FromQuery] string ime, [FromQuery] string prezime, [FromQuery] string id_trgovac)
         {
         _executionContext.Repository.NBP_project_Store.Trgovac.Insert(new NBP_project_Store.Trgovac
