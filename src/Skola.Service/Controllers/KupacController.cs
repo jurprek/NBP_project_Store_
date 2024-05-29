@@ -29,6 +29,19 @@ namespace NBP_project_Store
             return Ok(_executionContext.Repository.NBP_project_Store.Kupac.Query().ToList());
         }
 
+        [HttpGet("Pronaði_Kupca")]
+        public IActionResult ReadKupac([FromQuery] string id_kupac, [FromQuery] string ime, [FromQuery] string prezime)
+        {
+            var results = _executionContext.Repository.NBP_project_Store.Kupac.Query()
+                                  .Where(i => i.Id_Kupac.Contains(id_kupac) || i.Ime.Contains(ime) || i.Prezime.Contains(prezime))
+                                  .ToList();
+            if (results == null || !results.Any())
+            {
+                return NotFound("Kupac nije u bazi");
+            }
+
+            return Ok(results);
+        }
 
         [HttpPost("Kupac")]
         public IActionResult WriteKupac([FromQuery] string id_kupac, [FromQuery] string ime, [FromQuery] string prezime)

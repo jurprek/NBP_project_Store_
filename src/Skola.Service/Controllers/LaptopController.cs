@@ -40,7 +40,7 @@ namespace Skola.Service.Controllers
             return Ok(laptops);
         }
 
-        [HttpGet("{id_laptop}")]
+        [HttpGet("Pronaði_Laptop")]
         public ActionResult<Laptop> GetLaptop(string id_laptop)
         {
             var laptop = _mongoDBContext.GetLaptopById(id_laptop);
@@ -53,7 +53,7 @@ namespace Skola.Service.Controllers
             return Ok(laptop);
         }
 
-        [HttpGet("Laptop/keyword")]
+        [HttpGet("Detaljna_Pretraga")]
         public ActionResult<List<Laptop>> GetLaptop_keyword(string keyword)
         {
             keyword = keyword.ToLower();
@@ -127,7 +127,7 @@ namespace Skola.Service.Controllers
             return CreatedAtAction(nameof(GetLaptop), new { id_laptop = laptop.Id_Laptop }, laptop);
         }
 
-        [HttpDelete("{id_laptop}")]
+        [HttpDelete("Laptop")]
         public IActionResult DeleteLaptop(string id_laptop)
         {
             var laptop = _mongoDBContext.GetLaptopById(id_laptop);

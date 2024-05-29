@@ -37,11 +37,11 @@ using NBP_project_Store;
             return Ok(_executionContext.Repository.NBP_project_Store.Poslovnica.Query().ToList());
         }
 
-    [HttpGet("Poslovnica/Id")]
+    [HttpGet("Pronaði_Poslovnicu")]
     public IActionResult ReadPoslovnica([FromQuery] string id_poslovnica, [FromQuery] string naziv)
     {
         var results = _executionContext.Repository.NBP_project_Store.Poslovnica.Query()
-                              .Where(i => i.Id_Poslovnica == id_poslovnica || i.Naziv == naziv)
+                              .Where(i => i.Id_Poslovnica.Contains(id_poslovnica) || i.Naziv.Contains(naziv))
                               .ToList();
         if (results == null || !results.Any())
         {
@@ -50,8 +50,6 @@ using NBP_project_Store;
 
         return Ok(results);
     }
-
-
 
     [HttpPost("Poslovnica")]
         public IActionResult WritePoslovnica([FromQuery] string naziv, [FromQuery] string poslovnicaID)
@@ -69,17 +67,17 @@ using NBP_project_Store;
 
 
         [HttpDelete("Poslovnica")]
-        public IActionResult DeletePoslovnica([FromQuery] Guid id)
+        public IActionResult DeletePoslovnica([FromQuery] string id_poslovnica)
         {
             NBP_project_Store_Poslovnica result = null;
 
             result = _executionContext.Repository.NBP_project_Store.Poslovnica.Query()
-                          .Where(i => i.ID == id)
+                          .Where(i => i.Id_Poslovnica == id_poslovnica)
                           .FirstOrDefault();
 
             if (result == null)
             {
-                return NotFound("U bazi ne postoji  ID = " + id);
+                return NotFound("U bazi ne postoji ID = " + id_poslovnica);
             }
             else
                 _executionContext.Repository.NBP_project_Store.Poslovnica.Delete(result);

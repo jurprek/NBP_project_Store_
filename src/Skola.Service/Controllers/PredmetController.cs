@@ -26,15 +26,15 @@ public class PredmetController : ControllerBase
         return Ok(_executionContext.Repository.NBP_project_Store.Predmet.Query().ToList());
     }
 
-    [HttpGet("Predmet/Id")]
-    public IActionResult ReadPredmet([FromQuery] string id_predmet, [FromQuery] string naziv)
+    [HttpGet("Pronaði_Predmet")]
+    public IActionResult Readredmet([FromQuery] string id_predmet, [FromQuery] string opis)
     {
         var results = _executionContext.Repository.NBP_project_Store.Predmet.Query()
-                              .Where(i => i.Id_Predmet == id_predmet || i.Naziv.Contains(naziv))
+                              .Where(i => i.Id_Predmet.Contains(id_predmet) || i.Naziv.Contains(opis))
                               .ToList();
         if (results == null || !results.Any())
         {
-            return NotFound("Laptop nije u SQL bazi");
+            return NotFound("Predmet nije u bazi");
         }
 
         return Ok(results);

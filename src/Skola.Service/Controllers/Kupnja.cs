@@ -29,11 +29,11 @@ namespace NBP_project_Store
         }
 
         [HttpPost("Kupnja")]
-        public IActionResult WriteKupac([FromQuery] string id_kupnja, [FromQuery] Guid id_kupac, [FromQuery] Guid id_predmet)
+        public IActionResult WriteKupac([FromQuery] string id_kupnja, [FromQuery] string id_kupac, [FromQuery] string id_predmet, [FromQuery] string id_trgovac)
         {
             // Provjera da li kupac postoji
             var kupacExists = _executionContext.Repository.NBP_project_Store.Kupac.Query()
-                .Any(k => k.ID == id_kupac);
+                .Any(k => k.Id_Kupac == id_kupac);
 
             if (!kupacExists)
             {
@@ -42,19 +42,29 @@ namespace NBP_project_Store
 
             // Provjera da li predmet postoji
             var predmetExists = _executionContext.Repository.NBP_project_Store.Predmet.Query()
-                .Any(p => p.ID == id_predmet);
+                .Any(p => p.Id_Predmet == id_predmet);
 
             if (!predmetExists)
             {
                 return NotFound("Predmet nije pronaðen.");
             }
 
+            // Provjera da li trgovac postoji
+            var trgovacExists = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
+                .Any(p => p.Id_Trgovac == id_trgovac);
+
+            if (!trgovacExists)
+            {
+                return NotFound("Trgovac nije pronaðen.");
+            }
+
             // Umetanje nove kupnje
             _executionContext.Repository.NBP_project_Store.Kupnja.Insert(new NBP_project_Store_Kupnja
             {
                 Id_Kupnja = id_kupnja,
-                KupacID = id_kupac,
-                PredmetID = id_predmet
+                Id_Kupac = id_kupac,
+                Id_Predmet = id_predmet,
+                Id_Trgovac = id_trgovac
             });
 
             _unitOfWork.CommitAndClose();
@@ -63,22 +73,66 @@ namespace NBP_project_Store
         }
 
         [HttpDelete("Kupnja")]
-        public IActionResult DeleteKupac([FromQuery] Guid kupnja)
+        public IActionResult DeleteKupnja([FromQuery] string id_kupnja)
         {
-            NBP_project_Store_Kupac result = null;
+            NBP_project_Store_Kupnja result = null;
 
-            result = _executionContext.Repository.NBP_project_Store.Kupac.Query()
-                                                    .Where(i => i.ID == kupnja)
+            result = _executionContext.Repository.NBP_project_Store.Kupnja.Query()
+                                                    .Where(i => i.Id_Kupnja == id_kupnja)
                                                     .FirstOrDefault();
             if (result == null)
             {
                 return NotFound("Kupnja ne postoji u bazi.");
             }
             else
-                _executionContext.Repository.NBP_project_Store.Kupac.Delete(result);
+                _executionContext.Repository.NBP_project_Store.Kupnja.Delete(result);
 
             _unitOfWork.CommitAndClose();
             return Ok(result);
+        }
+        [HttpGet("Pronaði_Kupnju")]
+        public IActionResult SearchKupnja([FromQuery] string kupacKeyword, [FromQuery] string predmetKeyword, [FromQuery] string trgovacKeyword)
+        {
+            var kupnjeQuery = _executionContext.Repository.NBP_project_Store.Kupnja.Query();
+
+            if (!string.IsNullOrEmpty(kupacKeyword))
+            {
+                var kupacIds = _executionContext.Repository.NBP_project_Store.Kupac.Query()
+                    .Where(c => c.Ime.Contains(kupacKeyword) || c.Prezime.Contains(kupacKeyword) || c.Id_Kupac.Contains(kupacKeyword))
+                    .Select(c => c.Id_Kupac)
+                    .ToList();
+
+                kupnjeQuery = kupnjeQuery.Where(k => kupacIds.Contains(k.Id_Kupac));
+            }
+
+            if (!string.IsNullOrEmpty(predmetKeyword))
+            {
+                var predmetIds = _executionContext.Repository.NBP_project_Store.Predmet.Query()
+                    .Where(p => p.Naziv.Contains(predmetKeyword) || p.Id_Predmet.Contains(predmetKeyword))
+                    .Select(p => p.Id_Predmet)
+                    .ToList();
+
+                kupnjeQuery = kupnjeQuery.Where(k => predmetIds.Contains(k.Id_Predmet));
+            }
+
+            if (!string.IsNullOrEmpty(trgovacKeyword))
+            {
+                var trgovacIds = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
+                    .Where(t => t.Ime.Contains(trgovacKeyword) || t.Prezime.Contains(trgovacKeyword) || t.Id_Trgovac.Contains(trgovacKeyword))
+                    .Select(t => t.Id_Trgovac)
+                    .ToList();
+
+                kupnjeQuery = kupnjeQuery.Where(k => trgovacIds.Contains(k.Id_Trgovac));
+            }
+
+            var kupnje = kupnjeQuery.ToList();
+
+            if (kupnje == null || !kupnje.Any())
+            {
+                return NotFound("Kupnja ne postoji u bazi.");
+            }
+
+            return Ok(kupnje);
         }
     }
 }

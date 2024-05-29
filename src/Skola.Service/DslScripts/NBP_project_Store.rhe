@@ -30,9 +30,18 @@
     }
 
     Entity Kupnja
-    {   
+    {
         ShortString Id_Kupnja;
-        Reference Kupac { Required; }
-        Reference Predmet { Required; }
+        ShortString Id_Kupac { Required; }
+        ShortString Id_Predmet { Required; }
+        ShortString Id_Trgovac { Required; }
+    }
+
+        Entity Inventar
+    {
+        ShortString Id_Inventar;
+        ShortString Id_Predmet { Required; }
+        ShortString Id_Poslovnica { Required; }
+        ShortString Cijena_Eur { Required; }
     }
 }

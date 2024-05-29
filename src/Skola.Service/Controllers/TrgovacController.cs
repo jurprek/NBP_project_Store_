@@ -27,11 +27,11 @@ using NBP_project_Store;
             return Ok(_executionContext.Repository.NBP_project_Store.Trgovac.Query().ToList());
         }
 
-        [HttpGet("Trgovac/Id")]
+        [HttpGet("Pronaði_Trgovca")]
         public IActionResult ReadTrgovac([FromQuery] string id_trgovac, [FromQuery] string ime, [FromQuery] string prezime)
         {
             var results = _executionContext.Repository.NBP_project_Store.Trgovac.Query()
-                                  .Where(i => i.Id_Trgovac == id_trgovac || (i.Ime == ime && i.Prezime == prezime))
+                                  .Where(i => i.Id_Trgovac.Contains(id_trgovac) || i.Ime.Contains(ime) || i.Prezime.Contains(prezime))
                                   .ToList();
             if (results == null || !results.Any())
             {
