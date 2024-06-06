@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Skola.Service.Models
 {
@@ -8,6 +9,7 @@ namespace Skola.Service.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        [JsonIgnore]
         public string PredmetId { get; set; }
         
         [BsonElement("Id_Laptop")]
