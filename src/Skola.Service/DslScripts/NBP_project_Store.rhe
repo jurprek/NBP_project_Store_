@@ -34,7 +34,9 @@
         ShortString Id_Kupnja;
         ShortString Id_Kupac { Required; }
         ShortString Id_Predmet { Required; }
+        ShortString Id_Poslovnica { Required; }
         ShortString Id_Trgovac { Required; }
+        DateTime Datum_vrijeme {Required; }
     }
 
         Entity Inventar

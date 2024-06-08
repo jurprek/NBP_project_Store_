@@ -29,7 +29,8 @@ namespace NBP_project_Store
         }
 
         [HttpPost("Kupnja")]
-        public IActionResult WriteKupac([FromQuery] string id_kupnja, [FromQuery] string id_kupac, [FromQuery] string id_predmet, [FromQuery] string id_trgovac)
+        public IActionResult WriteKupac([FromQuery] string id_kupnja, [FromQuery] string id_kupac, [FromQuery] string id_predmet, 
+                                        [FromQuery] string id_poslovnica, [FromQuery] string id_trgovac, [FromQuery] DateTime datum_vrijeme)
         {
             // Provjera da li kupac postoji
             var kupacExists = _executionContext.Repository.NBP_project_Store.Kupac.Query()
@@ -64,7 +65,9 @@ namespace NBP_project_Store
                 Id_Kupnja = id_kupnja,
                 Id_Kupac = id_kupac,
                 Id_Predmet = id_predmet,
-                Id_Trgovac = id_trgovac
+                Id_Poslovnica = id_poslovnica,
+                Id_Trgovac = id_trgovac,
+                Datum_vrijeme = datum_vrijeme
             });
 
             _unitOfWork.CommitAndClose();

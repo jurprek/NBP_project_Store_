@@ -1,0 +1,412 @@
+[
+  {
+    "Id_Laptop": "Lap_001",
+    "model": "Acer Aspire 5 A515-55-56VK",
+    "processor": {
+      "type": "Intel Core i5-1035G1",
+      "cores": 4,
+      "max_speed_GHz": 3.6
+    },
+    "ram": {
+      "size_GB": 8,
+      "type": "DDR4"
+    },
+    "screen": {
+      "size_inches": 15.6,
+      "resolution": "1920×1080",
+      "type": "FHD"
+    },
+    "storage": {
+      "size_GB": 256,
+      "type": "SSD"
+    },
+    "os": "Windows 10 Home",
+    "graphics": {
+      "type": "Intel UHD Graphics"
+    },
+    "network": {
+      "wifi": "802.11ac",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 1,
+      "usb_3_1": 2,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.8,
+    "color": "Silver",
+    "warranty_months": 12,
+    "additional_features": ["Backlit Keyboard", "Fingerprint Reader"]
+  },
+  {
+    "Id_Laptop": "Lap_002",
+    "model": "Dell XPS 13 9310",
+    "processor": {
+      "type": "Intel Core i7-1185G7",
+      "cores": 4,
+      "max_speed_GHz": 4.8
+    },
+    "ram": {
+      "size_GB": 16,
+      "type": "LPDDR4X"
+    },
+    "screen": {
+      "size_inches": 13.4,
+      "resolution": "3840×2400",
+      "type": "UHD+ Touch"
+    },
+    "storage": {
+      "size_GB": 512,
+      "type": "SSD"
+    },
+    "os": "Windows 11 Pro",
+    "graphics": {
+      "type": "Intel Iris Xe Graphics"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 0,
+      "hdmi": false,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.2,
+    "color": "Platinum Silver",
+    "warranty_months": 24,
+    "additional_features": ["InfinityEdge Display", "Wi-Fi 6"]
+  },
+  {
+    "Id_Laptop": "Lap_003",
+    "model": "HP Envy x360 15-eu0023dx",
+    "processor": {
+      "type": "AMD Ryzen 7 5700U",
+      "cores": 8,
+      "max_speed_GHz": 4.3
+    },
+    "ram": {
+      "size_GB": 16,
+      "type": "DDR4"
+    },
+    "screen": {
+      "size_inches": 15.6,
+      "resolution": "1920×1080",
+      "type": "FHD Touch"
+    },
+    "storage": {
+      "size_GB": 512,
+      "type": "SSD"
+    },
+    "os": "Windows 10 Home",
+    "graphics": {
+      "type": "AMD Radeon Integrated"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 1,
+      "usb_3_1": 2,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.92,
+    "color": "Natural Silver",
+    "warranty_months": 12,
+    "additional_features": ["Convertible", "Backlit Keyboard"]
+  },
+  {
+    "Id_Laptop": "Lap_004",
+    "model": "Lenovo ThinkPad X1 Carbon Gen 9",
+    "processor": {
+      "type": "Intel Core i7-1165G7",
+      "cores": 4,
+      "max_speed_GHz": 4.7
+    },
+    "ram": {
+      "size_GB": 16,
+      "type": "LPDDR4X"
+    },
+    "screen": {
+      "size_inches": 14,
+      "resolution": "1920×1200",
+      "type": "FHD+"
+    },
+    "storage": {
+      "size_GB": 512,
+      "type": "SSD"
+    },
+    "os": "Windows 10 Pro",
+    "graphics": {
+      "type": "Intel Iris Xe Graphics"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 2,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.4,
+    "color": "Black",
+    "warranty_months": 36,
+    "additional_features": ["Fingerprint Reader", "Thunderbolt 4"]
+  },
+  {
+    "Id_Laptop": "Lap_005",
+    "model": "Asus ROG Zephyrus G14 GA402RK",
+    "processor": {
+      "type": "AMD Ryzen 9 6900HS",
+      "cores": 8,
+      "max_speed_GHz": 4.9
+    },
+    "ram": {
+      "size_GB": 32,
+      "type": "DDR5"
+    },
+    "screen": {
+      "size_inches": 14,
+      "resolution": "2560×1600",
+      "type": "QHD"
+    },
+    "storage": {
+      "size_GB": 1,
+      "type": "SSD"
+    },
+    "os": "Windows 11 Home",
+    "graphics": {
+      "type": "AMD Radeon RX 6800S"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 2,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.7,
+    "color": "Eclipse Gray",
+    "warranty_months": 24,
+    "additional_features": ["AniMe Matrix Display", "Dolby Atmos"]
+  },
+  {
+    "Id_Laptop": "Lap_006",
+    "model": "Microsoft Surface Laptop 5",
+    "processor": {
+      "type": "Intel Core i7-1255U",
+      "cores": 10,
+      "max_speed_GHz": 4.7
+    },
+    "ram": {
+      "size_GB": 16,
+      "type": "LPDDR5"
+    },
+    "screen": {
+      "size_inches": 13.5,
+      "resolution": "2256×1504",
+      "type": "PixelSense"
+    },
+    "storage": {
+      "size_GB": 512,
+      "type": "SSD"
+    },
+    "os": "Windows 11 Pro",
+    "graphics": {
+      "type": "Intel Iris Xe Graphics"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 0,
+      "hdmi": false,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.3,
+    "color": "Sage",
+    "warranty_months": 24,
+    "additional_features": ["Touch Screen", "Face Recognition"]
+  },
+  {
+    "Id_Laptop": "Lap_007",
+    "model": "Apple MacBook Pro 14-inch M1 Pro",
+    "processor": {
+      "type": "Apple M1 Pro",
+      "cores": 10,
+      "max_speed_GHz": 3.2
+    },
+    "ram": {
+      "size_GB": 16,
+      "type": "Unified"
+    },
+    "screen": {
+      "size_inches": 14.2,
+      "resolution": "3024×1964",
+      "type": "Liquid Retina XDR"
+    },
+    "storage": {
+      "size_GB": 512,
+      "type": "SSD"
+    },
+    "os": "macOS Monterey",
+    "graphics": {
+      "type": "Apple Integrated"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 0,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.6,
+    "color": "Space Gray",
+    "warranty_months": 12,
+    "additional_features": ["Touch ID", "ProMotion"]
+  },
+  {
+    "Id_Laptop": "Lap_008",
+    "model": "Asus ZenBook Duo 14 UX482",
+    "processor": {
+      "type": "Intel Core i7-1165G7",
+      "cores": 4,
+      "max_speed_GHz": 4.7
+    },
+    "ram": {
+      "size_GB": 16,
+      "type": "LPDDR4X"
+    },
+    "screen": {
+      "size_inches": 14,
+      "resolution": "1920×1080",
+      "type": "FHD Touch"
+    },
+    "storage": {
+      "size_GB": 1,
+      "type": "SSD"
+    },
+    "os": "Windows 10 Home",
+    "graphics": {
+      "type": "NVIDIA GeForce MX450"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 2,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.62,
+    "color": "Celestial Blue",
+    "warranty_months": 24,
+    "additional_features": ["ScreenPad Plus", "Stylus Support"]
+  },
+  {
+    "Id_Laptop": "Lap_009",
+    "model": "Razer Blade 15 Advanced Model",
+    "processor": {
+      "type": "Intel Core i9-11900H",
+      "cores": 8,
+      "max_speed_GHz": 4.9
+    },
+    "ram": {
+      "size_GB": 32,
+      "type": "DDR4"
+    },
+    "screen": {
+      "size_inches": 15.6,
+      "resolution": "2560×1440",
+      "type": "QHD 240Hz"
+    },
+    "storage": {
+      "size_GB": 1,
+      "type": "SSD"
+    },
+    "os": "Windows 10 Home",
+    "graphics": {
+      "type": "NVIDIA GeForce RTX 3080"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 3,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 2.01,
+    "color": "Black",
+    "warranty_months": 12,
+    "additional_features": ["Chroma RGB", "Advanced Cooling"]
+  },
+  {
+    "Id_Laptop": "Lap_010",
+    "model": "HP Spectre x360 14-ea1013dx",
+    "processor": {
+      "type": "Intel Core i7-1255U",
+      "cores": 10,
+      "max_speed_GHz": 4.7
+    },
+    "ram": {
+      "size_GB": 16,
+      "type": "LPDDR4X"
+    },
+    "screen": {
+      "size_inches": 13.5,
+      "resolution": "3000×2000",
+      "type": "UHD+ Touch"
+    },
+    "storage": {
+      "size_GB": 512,
+      "type": "SSD"
+    },
+    "os": "Windows 11 Home",
+    "graphics": {
+      "type": "Intel Iris Xe Graphics"
+    },
+    "network": {
+      "wifi": "802.11ax",
+      "ethernet": "None",
+      "bluetooth": true
+    },
+    "ports": {
+      "usb_2_0": 0,
+      "usb_3_1": 2,
+      "hdmi": true,
+      "usb_type_c": true
+    },
+    "weight_kg": 1.34,
+    "color": "Nightfall Black",
+    "warranty_months": 12,
+    "additional_features": ["Convertible", "Thunderbolt 4"]
+  }
+]
