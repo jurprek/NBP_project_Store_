@@ -5,6 +5,9 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RhetosDeploy>True</RhetosDeploy>
+    <IncludeSymbols>False</IncludeSymbols>
+    <Copyright>Jurica Preksavec</Copyright>
+    <ApplicationIcon>Letter-J-icon_34756.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +19,10 @@
 
   <ItemGroup>
     <None Remove="Controllers\PredmetController.txt_cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Letter-J-icon_34756.ico" />
   </ItemGroup>
 
   <ItemGroup>
