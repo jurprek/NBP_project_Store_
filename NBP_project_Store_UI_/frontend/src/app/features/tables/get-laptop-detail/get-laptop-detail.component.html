@@ -1,0 +1,81 @@
+<div class="container">
+    <h1 class="mt-3">Laptop Details</h1>
+
+    <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+        <div class="mt-2">
+            <div class="mt-3">
+                <label class="form-label">Keyword</label>
+                <input type="" id="id_Laptop" class="form-control" name="keyword" [(ngModel)]="model.keyword">
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Get</button>
+            </div>
+
+        </div>
+    </form>
+
+    <div>
+        <mat-table #table [dataSource]="laptop" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="id_Laptop">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID laptop </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Laptop}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="model">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Model </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.model}} </mat-cell>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="processor">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Processor </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.processor.type}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="ram">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> RAM </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.ram.sizeGB}} {{"GB"}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="screen">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Screen </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.screen.sizeInches}}{{"''"}} {{element.screen.resolution}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="storage">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Graphics </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.storage.sizeGB}} {{element.storage.type}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="graphics">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Graphics </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.graphics.type}} {{element.screen.resolution}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="os">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> OS </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.os}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="weightKg">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Weight (Kg) </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.weightKg}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="warrantyMonths">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Warranty (Months) </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.warrantyMonths}}</mat-cell>
+            </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="laptopColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: laptopColumns;"></mat-row>
+          </mat-table>
+    </div>
+</div>

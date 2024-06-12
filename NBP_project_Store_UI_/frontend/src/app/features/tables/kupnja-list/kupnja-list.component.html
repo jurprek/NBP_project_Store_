@@ -1,0 +1,53 @@
+<div class="container">
+    <h1>Kupnja</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" [routerLink]="['/tablice/kupnja/get']" style="margin-right: 5px;"> Get one kupnja </a>
+        <a class="btn btn-primary" [routerLink]="['/tablice/kupnja/add']" style="margin-right: 5px;"> Add kupnja </a>
+        <a class="btn btn-outline-danger" [routerLink]="['/tablice/kupnja/delete']"> Remove kupnja </a>
+    </div>
+
+    <div>
+        <mat-table #table [dataSource]="kupnja" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="id_kupnja">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID kupnja </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Kupnja}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="id_kupac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID kupac </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Kupac}} </mat-cell>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="id_predmet">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID predmet </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Predmet}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="id_poslovnica">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID poslovnica </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Poslovnica}} </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="id_trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID trgovac </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Trgovac}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="datum_vrijeme">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Datum i vrijeme </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.datum_vrijeme}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="kupnjaColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: kupnjaColumns;"></mat-row>
+          </mat-table>
+    </div>
+</div>

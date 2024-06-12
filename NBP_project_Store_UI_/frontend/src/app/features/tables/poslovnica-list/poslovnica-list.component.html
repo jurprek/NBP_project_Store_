@@ -1,0 +1,34 @@
+<div class="container">
+    <h1>Poslovnica</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" [routerLink]="['/tablice/poslovnica/get']" style="margin-right: 5px;"> Get one kupnja </a>
+        <a class="btn btn-primary" [routerLink]="['/tablice/poslovnica/add']" style="margin-right: 5px;"> Add kupnja </a>
+        <a class="btn btn-outline-danger" [routerLink]="['/tablice/poslovnica/delete']"> Remove kupnja </a>
+    </div>
+
+    <div>
+        <mat-table #table [dataSource]="poslovnica" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="naziv">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Naziv </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.naziv}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="id_Poslovnica">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID poslovnica </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Poslovnica}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="poslovnicaColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: poslovnicaColumns;"></mat-row>
+          </mat-table>
+          
+    </div>
+
+</div>

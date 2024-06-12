@@ -1,0 +1,38 @@
+<div class="container">
+    <h1>Kupac</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" [routerLink]="['/tablice/kupac/get']" style="margin-right: 5px;"> Get one kupac </a>
+        <a class="btn btn-primary" [routerLink]="['/tablice/kupac/add']" style="margin-right: 5px;"> Add kupac </a>
+        <a class="btn btn-outline-danger" [routerLink]="['/tablice/kupac/delete']"> Remove kupac </a>
+    </div>
+
+    <div>
+        <mat-table #table [dataSource]="kupac" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="id_Kupac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Id Kupac </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Kupac}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="ime">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Ime </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.ime}} </mat-cell>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="prezime">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Prezime </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.prezime}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="kupacColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: kupacColumns;"></mat-row>
+          </mat-table>
+    </div>
+</div>

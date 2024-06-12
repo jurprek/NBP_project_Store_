@@ -1,0 +1,63 @@
+<div class="container">
+    <h1 class="mt-3">Get one inventar</h1>
+
+    <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+        <div class="mt-2">
+            <div class="mt-3">
+                <label class="form-label">Predmet Keyword</label>
+                <input type="" id="predmetKeyword" class="form-control" name="predmetKeyword" [(ngModel)]="model.predmetKeyword">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Poslovnica Keyword</label>
+                <input type="" id="poslovnicaKeyword" class="form-control" name="poslovnicaKeyword" [(ngModel)]="model.poslovnicaKeyword">
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Get</button>
+            </div>
+
+        </div>
+    </form>
+
+    <div>
+        <mat-table #table [dataSource]="inventar" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="cijena_Eur">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Cijena (EUR) </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.cijena_Eur}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="id_Inventar">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Inventar </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Inventar}} </mat-cell>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="id_Poslovnica">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Poslovnica </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Poslovnica}} </mat-cell>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="id_Predmet">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Predmet </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Predmet}} </mat-cell>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="id">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+              </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="inventarColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: inventarColumns;"></mat-row>
+          </mat-table>
+    </div>
+</div>

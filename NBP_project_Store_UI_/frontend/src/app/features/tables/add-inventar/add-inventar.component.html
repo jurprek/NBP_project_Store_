@@ -1,0 +1,32 @@
+<div class="container">
+    <h1 class="mt-3">Add Inventar</h1>
+
+    <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+        <div class="mt-2">
+            <div class="mt-3">
+                <label class="form-label">Id inventar</label>
+                <input type="" id="id_inventar" class="form-control" name="id_inventar" [(ngModel)]="model.id_inventar">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Id poslovnica</label>
+                <input type="" id="id_poslovnica" class="form-control" name="id_poslovnica" [(ngModel)]="model.id_poslovnica">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Id predmet</label>
+                <input type="" id="id_predmet" class="form-control" name="id_predmet" [(ngModel)]="model.id_predmet">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Cijena</label>
+                <input type="" id="cijena" class="form-control" name="cijena" [(ngModel)]="model.cijena">
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+
+        </div>
+    </form>
+</div>

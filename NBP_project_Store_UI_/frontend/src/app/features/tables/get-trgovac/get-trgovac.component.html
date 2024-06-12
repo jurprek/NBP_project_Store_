@@ -1,0 +1,58 @@
+<div class="container">
+    <h1 class="mt-3">Get one trgovac</h1>
+
+    <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+        <div class="mt-2">
+            <div class="mt-3">
+                <label class="form-label">Id</label>
+                <input type="" id="id_trgovac" class="form-control" name="id_trgovac" [(ngModel)]="model.searchId">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Ime</label>
+                <input type="" id="ime_trgovac" class="form-control" name="ime_trgovac" [(ngModel)]="model.searchIme">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Prezime</label>
+                <input type="" id="prezime_trgovac" class="form-control" name="prezime_trgovac" [(ngModel)]="model.searchPrezime">
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Get</button>
+            </div>
+
+        </div>
+    </form>
+
+    <div>
+        <mat-table #table [dataSource]="trgovac" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <ng-container matColumnDef="id_Trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Trgovac </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Trgovac}} </mat-cell>
+            </ng-container>
+                
+            <ng-container matColumnDef="ime_Trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Ime </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.ime}} </mat-cell>
+            </ng-container>
+                
+            <ng-container matColumnDef="prezime_Trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Prezime </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.prezime}} </mat-cell>
+            </ng-container>
+                
+            <ng-container matColumnDef="id">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+      
+            <mat-header-row mat-header-row *matHeaderRowDef="trgovacColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: trgovacColumns;"></mat-row>
+        </mat-table>
+    </div>
+</div>

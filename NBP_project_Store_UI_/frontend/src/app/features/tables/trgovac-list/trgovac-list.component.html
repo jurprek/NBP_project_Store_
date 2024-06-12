@@ -1,0 +1,40 @@
+<div class="container">
+    <h1>Trgovac</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" [routerLink]="['/tablice/trgovac/get']" style="margin-right: 5px;"> Get one trgovac </a>
+        <a class="btn btn-primary" [routerLink]="['/tablice/trgovac/add']" style="margin-right: 5px;"> Add trgovac </a>
+        <a class="btn btn-outline-danger" [routerLink]="['/tablice/trgovac/delete']"> Remove trgovac </a>
+    </div>
+
+    <div>
+        <mat-table #table [dataSource]="trgovac" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <ng-container matColumnDef="id_Trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Trgovac </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Trgovac}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="ime_Trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Ime </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.ime}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="prezime_Trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Prezime </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.prezime}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="id">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+              </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="trgovacColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: trgovacColumns;"></mat-row>
+        </mat-table>
+    </div>
+</div>

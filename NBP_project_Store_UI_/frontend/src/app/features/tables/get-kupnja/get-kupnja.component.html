@@ -1,0 +1,71 @@
+<div class="container">
+    <h1 class="mt-3">Get one kupnja</h1>
+
+    <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+        <div class="mt-2">
+            <div class="mt-3">
+                <label class="form-label">Kupac Keyword</label>
+                <input type="" id="kupacKeyword" class="form-control" name="kupacKeyword" [(ngModel)]="model.kupacKeyword">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Predmet Keyword</label>
+                <input type="" id="predmetKeyword" class="form-control" name="predmetKeyword" [(ngModel)]="model.predmetKeyword">
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label">Trgovac Keyword</label>
+                <input type="" id="trgovacKeyword" class="form-control" name="trgovacKeyword" [(ngModel)]="model.trgovacKeyword">
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Get</button>
+            </div>
+
+        </div>
+    </form>
+
+    <div>
+        <mat-table #table [dataSource]="kupnja" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="id_kupnja">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID kupnja </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Kupnja}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="id_kupac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID kupac </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Kupac}} </mat-cell>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="id_predmet">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID predmet </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Predmet}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="id_poslovnica">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID poslovnica </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Poslovnica}} </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="id_trgovac">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID trgovac </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Trgovac}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="datum_vrijeme">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Datum i vrijeme </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.datum_vrijeme}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="kupnjaColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: kupnjaColumns;"></mat-row>
+          </mat-table>
+    </div>
+</div>

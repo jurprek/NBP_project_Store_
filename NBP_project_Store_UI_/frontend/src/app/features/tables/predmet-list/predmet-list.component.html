@@ -1,0 +1,33 @@
+<div class="container">
+    <h1>Predmet</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" [routerLink]="['/tablice/predmet/get']" style="margin-right: 5px;"> Get one predmet </a>
+    </div>
+
+    <div>
+        <mat-table #table [dataSource]="predmet" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <ng-container matColumnDef="id_Predmet">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Predmet </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Predmet}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="naziv_Predmet">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Naziv </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.naziv}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="id">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+              </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="predmetColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: predmetColumns;"></mat-row>
+        </mat-table>
+    </div>
+</div>

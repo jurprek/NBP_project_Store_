@@ -1,0 +1,50 @@
+<div class="container">
+    <h1>Inventar</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" [routerLink]="['/tablice/inventar/get']" style="margin-right: 5px;"> Get one inventar </a>
+        <a class="btn btn-primary" [routerLink]="['/tablice/inventar/add']" style="margin-right: 5px;"> Add inventar </a>
+        <a class="btn btn-outline-danger" [routerLink]="['/tablice/inventar/delete']"> Remove inventar </a>
+    </div>
+
+    <div>
+        <mat-table #table [dataSource]="inventar" class="mat-elevation-z8">
+    
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="cijena_Eur">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Cijena (EUR) </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.cijena_Eur}} </mat-cell>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="id_Inventar">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Inventar </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Inventar}} </mat-cell>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="id_Poslovnica">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Poslovnica </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Poslovnica}} </mat-cell>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="id_Predmet">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> ID Predmet </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.id_Predmet}} </mat-cell>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="id">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+              </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="inventarColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: inventarColumns;"></mat-row>
+          </mat-table>
+    </div>
+</div>
